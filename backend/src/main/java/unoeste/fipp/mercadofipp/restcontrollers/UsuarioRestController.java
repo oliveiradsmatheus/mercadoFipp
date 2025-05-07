@@ -20,7 +20,7 @@ public class UsuarioRestController {
         List<Usuario> usuarios = usuarioService.getAll();
         if (usuarios != null && !usuarios.isEmpty())
             return ResponseEntity.ok(usuarios);
-        return ResponseEntity.badRequest().body(new Erro("Usuários não encontrados"));
+        return ResponseEntity.badRequest().body(new Erro("Usuários não encontrados!"));
     }
 
     @GetMapping("/{id}")
@@ -28,7 +28,7 @@ public class UsuarioRestController {
         Usuario usuario = usuarioService.getById(id);
         if (usuario != null)
             return ResponseEntity.ok(usuario);
-        return ResponseEntity.badRequest().body(new Erro("Usuário não encontrado"));
+        return ResponseEntity.badRequest().body(new Erro("Usuário não encontrado!"));
     }
 
     @PostMapping
@@ -36,7 +36,7 @@ public class UsuarioRestController {
         Usuario novoUsuario = usuarioService.save(usuario);
         if (novoUsuario != null)
             return ResponseEntity.ok(usuario);
-        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar usuário"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar usuário!"));
     }
 
     @PutMapping
@@ -44,13 +44,13 @@ public class UsuarioRestController {
         Usuario novoUsuario = usuarioService.save(usuario);
         if (novoUsuario != null)
             return ResponseEntity.ok(usuario);
-        return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar usuário"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar usuário!"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delUsuario(@PathVariable Long id) {
         if (usuarioService.delete(id))
             return ResponseEntity.noContent().build();
-        return ResponseEntity.badRequest().body(new Erro("Erro ao apagar categoria"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao apagar usuário!"));
     }
 }

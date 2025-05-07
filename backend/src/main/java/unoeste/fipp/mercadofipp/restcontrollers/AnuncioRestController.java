@@ -21,7 +21,7 @@ public class AnuncioRestController {
         List<Anuncio> anuncios = anuncioService.getAll();
         if (anuncios != null && !anuncios.isEmpty())
             return ResponseEntity.ok(anuncios);
-        return ResponseEntity.badRequest().body(new Erro("Anuncios não encontrados!"));
+        return ResponseEntity.badRequest().body(new Erro("Anúncios não encontrados!"));
     }
 
     @GetMapping(value = "add-pergunta/{id}/{texto}")
@@ -59,6 +59,6 @@ public class AnuncioRestController {
         Anuncio novo = anuncioService.save(anuncio);
         if (novo != null)
             return ResponseEntity.ok(anuncio);
-        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar anúncio!"));
     }
 }

@@ -20,7 +20,7 @@ public class CategoriaRestController {
         List<Categoria> categorias = categoriaService.getAll();
         if (categorias != null && !categorias.isEmpty())
             return ResponseEntity.ok(categorias);
-        return ResponseEntity.badRequest().body(new Erro("Categorias não encontradas"));
+        return ResponseEntity.badRequest().body(new Erro("Categorias não encontradas!"));
     }
 
     @GetMapping("/{id}")
@@ -28,7 +28,7 @@ public class CategoriaRestController {
         Categoria categoria = categoriaService.getById(id);
         if (categoria != null)
             return ResponseEntity.ok(categoria);
-        return ResponseEntity.badRequest().body(new Erro("Categoria não encontrada"));
+        return ResponseEntity.badRequest().body(new Erro("Categoria não encontrada!"));
     }
 
     @PostMapping
@@ -36,7 +36,7 @@ public class CategoriaRestController {
         Categoria novaCategoria = categoriaService.save(categoria);
         if (novaCategoria != null)
             return ResponseEntity.ok(novaCategoria);
-        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar categoria"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar categoria!"));
     }
 
     @PutMapping
@@ -44,13 +44,13 @@ public class CategoriaRestController {
         Categoria novaCategoria = categoriaService.save(categoria);
         if (novaCategoria != null)
             return ResponseEntity.ok(novaCategoria);
-        return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar categoria"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar categoria!"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delCategoria(@PathVariable Long id) {
         if (categoriaService.delete(id))
             return ResponseEntity.noContent().build();
-        return ResponseEntity.badRequest().body(new Erro("Erro ao apagar categoria"));
+        return ResponseEntity.badRequest().body(new Erro("Erro ao apagar categoria!"));
     }
 }
