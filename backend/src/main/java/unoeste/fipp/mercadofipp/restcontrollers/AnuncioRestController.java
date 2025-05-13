@@ -10,6 +10,7 @@ import unoeste.fipp.mercadofipp.services.AnuncioService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "apis/anuncio")
 public class AnuncioRestController {
