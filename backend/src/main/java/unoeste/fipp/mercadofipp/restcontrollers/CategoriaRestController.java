@@ -9,6 +9,7 @@ import unoeste.fipp.mercadofipp.services.CategoriaService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "apis/categoria")
 public class CategoriaRestController {
