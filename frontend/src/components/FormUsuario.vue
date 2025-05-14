@@ -1,6 +1,6 @@
-<template>
+FormCategoria.vue<template>
     <div>
-        <h1>Cadastro de Categorias</h1><br>
+        <h1>Cadastro de Usuários</h1><br>
         <div v-if="formOn">
             <form @submit.prevent="this.gravar()">
                 <label for="idcat">ID</label>
@@ -50,7 +50,7 @@ import "vue3-toastify/dist/index.css"
 import axios from "axios";
 
 export default {
-    name: 'FormCategoria',
+    name: 'FormUsuario',
     props: {
         msg: String
     },
