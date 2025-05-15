@@ -1,15 +1,18 @@
 <template>
     <Menu/>
     <FormCategoria/>
+    <FormUsuario/>
 </template>
 
 <script>
 import Menu from "@/components/layouts/Menu.vue";
 import FormCategoria from "@/components/FormCategoria.vue";
+import FormUsuario from "@/components/FormUsuario.vue";
 
 export default {
     name: 'App',
     components: {
+        FormUsuario,
         FormCategoria,
         Menu
     }

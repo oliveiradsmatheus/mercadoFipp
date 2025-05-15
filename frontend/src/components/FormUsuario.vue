@@ -1,16 +1,17 @@
 <template>
+
     <div class="container mt-4">
-        <h1>Cadastro de Categorias</h1><br>
+        <h1>Cadastro de Usuários</h1><br>
         <div v-if="formOn">
             <form @submit.prevent="this.gravar()">
                 <div class="mb-3">
-                    <label for="idcat" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
+                    <label for="idusr" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="idusr" v-model="id" placeholder="Id do Usuário"
                            disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nome da Categoria</label>
-                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome da Categoria">
+                    <label for="name" class="form-label">Nome do Usuário</label>
+                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome do Usuário">
                 </div>
                 <div class="botoes">
                     <div v-if="modoEdicao">
@@ -24,10 +25,10 @@
             </form>
         </div>
         <div class="botaoForm">
-            <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
+            <button class="btn btn-primary" @click="mostrarForm(true)">Novo Usuário</button>
         </div>
         <div class="mt-4">
-            <table class="table table-striped table-hover" id="categorias">
+            <table class="table table-striped table-hover" id="usuarios">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -36,14 +37,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cat in this.categorias">
-                        <td>{{ cat.id }}</td>
-                        <td>{{ cat.nome }}</td>
+                    <tr v-for="usuario in this.usuarios">
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.alterar(cat)" class="btn alterar">
+                            <button @click="this.alterar(usuario)" class="btn alterar">
                                 <img src="../assets/icones/editar.svg" alt="">
                             </button>
-                            <button @click="this.apagar(cat.id)" class=" btn excluir">
+                            <button @click="this.apagar(usuario.id)" class=" btn excluir">
                                 <img src="../assets/icones/deletar.svg" alt="">
                             </button>
                         </td>
@@ -60,7 +61,7 @@ import "vue3-toastify/dist/index.css"
 import axios from "axios";
 
 export default {
-    name: 'FormCategoria',
+    name: "FormUsuario",
     props: {
         msg: String
     },
@@ -70,7 +71,7 @@ export default {
             nome: "",
             formOn: false,
             modoEdicao: false,
-            categorias: []
+            usuarios: []
         }
     },
     methods: {
@@ -78,7 +79,7 @@ export default {
             this.formOn = flag;
         },
         gravar() {
-            const url = 'http://localhost:8080/apis/categoria';
+            const url = 'http://localhost:8080/apis/usuario';
             if (this.modoEdicao) {
                 const data = {id: this.id, nome: this.nome};
 
@@ -86,19 +87,19 @@ export default {
                     axios.put(url, data)
                         .then(resposta => {
                             this.carregarDados();
-                            toast.success("Categoria alterada com sucesso!", {
+                            toast.success("Usuário alterado com sucesso!", {
                                 autoClose: 2000
                             });
                             this.modoEdicao = false;
                             this.limparForm();
                         })
                         .catch(erro => {
-                            toast.error("Erro ao alterar categoria!", {
+                            toast.error("Erro ao alterar usuário!", {
                                 autoClose: 2000
                             })
                         })
                 else
-                    toast.warning("Insira um nome para a categoria!", {
+                    toast.warning("Insira um nome para o usuário!", {
                         autoClose: 2000
                     });
 
@@ -109,42 +110,42 @@ export default {
                     axios.post(url, data)
                         .then(resposta => {
                             this.carregarDados();
-                            toast.success("Categoria gravada com sucesso!", {
+                            toast.success("Usuário gravado com sucesso!", {
                                 autoClose: 2000
                             });
                             this.limparForm();
                         })
                         .catch(erro => {
-                            toast.error("Erro ao gravar categoria!", {
+                            toast.error("Erro ao gravar usuário!", {
                                 autoClose: 2000
                             });
                         });
                 else
-                    toast.warning("Insira um nome para a categoria!", {
+                    toast.warning("Insira um nome para o usuário!", {
                         autoClose: 2000
                     });
             }
         },
         apagar(id) {
-            const url = "http://localhost:8080/apis/categoria/" + id;
-            if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
+            const url = "http://localhost:8080/apis/usuario/" + id;
+            if (window.confirm("Deseja realmente deletar o usuário " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
-                        toast.success("Categoria removida com sucesso!", {
+                        toast.success("Usuário removido com sucesso!", {
                             autoClose: 2000
                         });
                         this.carregarDados();
                     })
                     .catch(erro => {
-                        toast.error("Erro ao remover categoria!", {
+                        toast.error("Erro ao remover usuário!", {
                             autoClose: 2000
                         });
                     })
         },
-        alterar(cat) {
+        alterar(usuario) {
             this.mostrarForm(true);
-            this.id = cat.id;
-            this.nome = cat.nome;
+            this.id = usuario.id;
+            this.nome = usuario.nome;
             this.modoEdicao = true;
         },
         limparForm() {
@@ -153,14 +154,14 @@ export default {
             this.modoEdicao = false;
         },
         carregarDados() {
-            const url = "http://localhost:8080/apis/categoria";
+            const url = "http://localhost:8080/apis/usuario";
 
             axios.get(url)
                 .then(resposta => {
-                    this.categorias = resposta.data;
+                    this.usuarios = resposta.data;
                 })
                 .catch(erro => {
-                    toast.error("Erro ao carregar categorias!", {
+                    toast.error("Erro ao carregar usuários!", {
                         autoClose: 2000
                     });
                 });
@@ -173,6 +174,7 @@ export default {
 </script>
 
 <style scoped>
+
 form > div > .btn {
     margin-right: 10px;
     margin-left: 10px;
