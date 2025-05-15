@@ -1,38 +1,44 @@
 <template>
-    <div>
+    <div class="container mt-4">
         <h1>Cadastro de Categorias</h1><br>
         <div v-if="formOn">
             <form @submit.prevent="this.gravar()">
-                <label for="idcat">ID</label>
-                <input type="text" id="idcat" v-model="id" placeholder="Id da Categoria">
-                <label for="name">Nome</label>
-                <input type="text" id="name" v-model="nome" placeholder="Nome da Categoria">
-                <input type="submit" value="Cadastrar">
+                <div class="mb-3">
+                    <label for="idcat" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
+                           disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nome da Categoria</label>
+                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome da Categoria">
+                </div>
+                <div class="botoes">
+                    <input class="btn btn-primary" type="submit" value="Cadastrar">
+                    <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
+                </div>
             </form>
         </div>
-        <div style="display: flex; justify-content: flex-end">
-            <button @click="mostrarForm(true)">Nova Categoria</button>
+        <div class="botaoForm">
+            <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
         </div>
-        <div>
-            <table id="customers">
+        <div class="mt-4">
+            <table class="table table-striped table-hover" id="categorias">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th colspan="2">Ações</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col" colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="cat in this.categorias">
                         <td>{{ cat.id }}</td>
                         <td>{{ cat.nome }}</td>
-                        <td>
-                            <button @click="this.alterar(cat.id)" class="alterar">
+                        <td class="acoes">
+                            <button @click="this.alterar(cat)" class="btn alterar">
                                 <img src="../assets/icones/editar.svg" alt="">
                             </button>
-                        </td>
-                        <td>
-                            <button @click="this.apagar(cat.id)" class="excluir">
+                            <button @click="this.apagar(cat.id)" class=" btn excluir">
                                 <img src="../assets/icones/deletar.svg" alt="">
                             </button>
                         </td>
@@ -44,6 +50,8 @@
 </template>
 
 <script>
+import {toast} from "vue3-toastify";
+import "vue3-toastify/dist/index.css"
 import axios from "axios";
 
 export default {
@@ -56,6 +64,7 @@ export default {
             id: 0,
             nome: "",
             formOn: false,
+            modoEdicao: false,
             categorias: []
         }
     },
@@ -65,30 +74,89 @@ export default {
         },
         gravar() {
             const url = 'http://localhost:8080/apis/categoria';
-            const data = {nome: this.nome};
+            if (this.modoEdicao) {
+                const data = {id: this.id, nome: this.nome};
 
-            axios.post(url, data)
-                .then(response => {
-                    this.carregarDados();
-                    console.log("Sucesso:", response.data);
-                })
-                .catch(error => {
-                    alert("Erro: ", error);
-                });
+                if (this.nome.length > 0)
+                    axios.put(url, data)
+                        .then(resposta => {
+                            this.carregarDados();
+                            toast.success("Categoria alterada com sucesso!", {
+                                autoClose: 2000
+                            });
+                            this.modoEdicao = false;
+                            this.limparForm();
+                        })
+                        .catch(erro => {
+                            toast.error("Erro ao alterar categoria!", {
+                                autoClose: 2000
+                            })
+                        })
+                else
+                    toast.warning("Insira um nome para a categoria!", {
+                        autoClose: 2000
+                    });
+
+            } else {
+                const data = {nome: this.nome};
+
+                if (this.nome.length > 0)
+                    axios.post(url, data)
+                        .then(resposta => {
+                            this.carregarDados();
+                            toast.success("Categoria gravada com sucesso!", {
+                                autoClose: 2000
+                            });
+                            this.limparForm();
+                        })
+                        .catch(erro => {
+                            toast.error("Erro ao gravar categoria!", {
+                                autoClose: 2000
+                            });
+                        });
+                else
+                    toast.warning("Insira um nome para a categoria!", {
+                        autoClose: 2000
+                    });
+            }
         },
-        apagar() {
-            alert("Apagando")
+        apagar(id) {
+            const url = "http://localhost:8080/apis/categoria/" + id;
+            if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
+                axios.delete(url)
+                    .then(resposta => {
+                        toast.success("Categoria removida com sucesso!", {
+                            autoClose: 2000
+                        });
+                        this.carregarDados();
+                    })
+                    .catch(erro => {
+                        toast.error("Erro ao remover categoria!", {
+                            autoClose: 2000
+                        });
+                    })
         },
-        alterar() {
-            alert("Alterando")
+        alterar(cat) {
+            this.mostrarForm(true);
+            this.id = cat.id;
+            this.nome = cat.nome;
+            this.modoEdicao = true;
+        },
+        limparForm() {
+            this.id = 0;
+            this.nome = ""
         },
         carregarDados() {
-            axios.get("http://localhost:8080/apis/categoria")
-                .then(response => {
-                    this.categorias = response.data;
+            const url = "http://localhost:8080/apis/categoria";
+
+            axios.get(url)
+                .then(resposta => {
+                    this.categorias = resposta.data;
                 })
                 .catch(erro => {
-                    alert("Erro: ", erro);
+                    toast.error("Erro ao carregar categorias!", {
+                        autoClose: 2000
+                    });
                 });
         }
     },
@@ -99,81 +167,57 @@ export default {
 </script>
 
 <style scoped>
-input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+form > div > .btn {
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
-input[type=submit] {
-    width: 100%;
-    background-color: #4182fb;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.botoes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 }
 
-button {
-    background-color: #145de6;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.botaoForm {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.acoes {
+    display: flex;
+    justify-content: center;
 }
 
 .alterar {
-    background-color: #efd361;
-    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--amarelo);
+    color: var(--preto);
+    margin: 0 5px;
 }
 
 .excluir {
-    background-color: #e55555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--vermelho);
+    margin: 0 5px;
 }
 
-input[type=submit]:hover {
-    background-color: #649aff;
+td, th {
+    align-content: center;
 }
 
-div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-
-#customers {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
+table {
+    border-radius: 10px;
+    overflow: hidden;
     width: 100%;
-}
-
-#customers td, #customers th {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-#customers tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#customers tr:hover {
-    background-color: #ddd;
-}
-
-#customers th {
-    width: 1000px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4182fb;
-    color: white;
 }
 </style>
