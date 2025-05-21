@@ -1,6 +1,7 @@
 package unoeste.fipp.mercadofipp.restcontrollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,19 +48,19 @@ public class AnuncioRestController {
         return ResponseEntity.badRequest().body(new Erro("Anúncio não encontrado!"));
     }
 
-    @PostMapping
-    public ResponseEntity<Object> addAnuncio(@RequestBody Anuncio anuncio) {
-        Anuncio novo = anuncioService.save(anuncio);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> addAnuncio(@RequestPart ("anuncio") Anuncio anuncio, @RequestPart ("fotos") MultipartFile[] fotos) {
+        Anuncio novo = anuncioService.save(anuncio, fotos);
         if (novo != null)
             return ResponseEntity.ok(anuncio);
         return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
     }
 
-    @PutMapping
+    /*@PutMapping
     public ResponseEntity<Object> updAnuncio(@RequestBody Anuncio anuncio) {
         Anuncio novo = anuncioService.save(anuncio);
         if (novo != null)
             return ResponseEntity.ok(anuncio);
         return ResponseEntity.badRequest().body(new Erro("Erro ao atualizar anúncio!"));
-    }
+    }*/
 }

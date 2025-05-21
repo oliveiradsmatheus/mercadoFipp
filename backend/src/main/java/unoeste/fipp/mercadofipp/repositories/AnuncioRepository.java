@@ -15,6 +15,6 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO foto_anuncio (fot_file, anu_id) VALUES (:foto, :id_anuncio)", nativeQuery = true)
-    public void addFoto(@Param("foto") byte[] foto, @Param("id_anuncio") Long id_anuncio);
+    @Query(value = "INSERT INTO foto_anuncio (fot_file, anu_id, fot_ext) VALUES (:foto, :id_anuncio, :extensao)", nativeQuery = true)
+    public void addFoto(@Param("foto") byte[] foto, @Param("id_anuncio") Long id_anuncio, @Param("extensao") String extensao);
 }

@@ -21,9 +21,10 @@ public class AnuncioService {
         return anuncioRepository.findById(id).orElse(null);
     }
 
-    public Anuncio save(Anuncio anuncio) {
+    public Anuncio save(Anuncio anuncio, MultipartFile[] fotos) {
         Anuncio novoAnuncio = anuncioRepository.save(anuncio);
-        // gravar fotos na tabela
+        if (novoAnuncio != null)
+            addFoto(fotos, novoAnuncio.getId());
         return novoAnuncio;
     }
 
@@ -40,7 +41,11 @@ public class AnuncioService {
         try {
             for (MultipartFile foto : fotos) {
                 byte[] bytes = foto.getBytes();
-                anuncioRepository.addFoto(bytes, id_anuncio);
+                String nomeArq = foto.getOriginalFilename();
+                String extensao;
+                int pos = nomeArq.lastIndexOf(".");
+                extensao = nomeArq.substring(pos + 1);
+                anuncioRepository.addFoto(bytes, id_anuncio, extensao);
             }
             return true;
         } catch (Exception e) {
