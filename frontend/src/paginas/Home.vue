@@ -2,7 +2,7 @@
     <div class="container w-100 mt-4">
         <h1>Anúncios recentes</h1>
         <div class="d-flex justify-content-around flex-wrap">
-            <div v-for="anuncio in anuncios" class="card m-3 p-2" style="width: 23rem;">
+            <div v-for="anuncio in anuncios">
                 <Card :anuncio="anuncio"/>
             </div>
         </div>

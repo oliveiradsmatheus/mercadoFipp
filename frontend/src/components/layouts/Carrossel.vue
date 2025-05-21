@@ -11,7 +11,7 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="../../assets/fonte.jpg" class="d-block w-100" alt="...">
+                    <img src="../../assets/fonte2.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item" data-bs-interval="2000">
                     <img src="../../assets/fonte2.jpg" class="d-block w-100" alt="...">
@@ -36,7 +36,22 @@
 
 <script>
 export default {
-    name: "Carrossel"
+    name: "Carrossel",
+    props: {
+        fotos: []
+    },
+    methods: {
+        adicionarFotos() {
+            const url = "http://localhost:/8080/apis/foto/" 
+            const caminho = "../../assets/fonte2.jpg"
+            for( let i = 0; i < 3; i++)
+                this.fotos[i] = caminho;
+            console.log(this.fotos);
+        }
+    },
+    mounted() {
+        this.adicionarFotos();
+    }
 }
 </script>
 
