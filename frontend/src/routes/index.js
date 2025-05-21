@@ -5,6 +5,7 @@ import Login from "@/paginas/Login.vue";
 import Categorias from "@/paginas/Categorias.vue";
 import Usuarios from "@/paginas/Usuarios.vue";
 import Anuncio from "@/paginas/Anuncio.vue";
+import CadAnuncio from "@/paginas/CadAnuncio.vue";
 
 const routes = [
     {
@@ -29,14 +30,21 @@ const routes = [
         }
     },
     {
-        path: "/categorias",
+        path: "/cadastros/anuncios",
+        component: CadAnuncio,
+        meta: {
+            title: "Cadastro de anúncios"
+        }
+    },
+    {
+        path: "/cadastros/categorias",
         component: Categorias,
         meta: {
             title: "Cadastro de categorias"
         }
     },
     {
-        path: "/usuarios",
+        path: "/cadastros/usuarios",
         component: Usuarios,
         meta: {
             title: "Cadastro de usuários"

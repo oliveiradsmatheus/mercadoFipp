@@ -25,10 +25,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <router-link class="dropdown-item" to="/categorias">Categorias</router-link>
+                                    <router-link class="dropdown-item" to="/cadastros/categorias">Categorias</router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" to="/usuarios">Usuários</router-link>
+                                    <router-link class="dropdown-item" to="/cadastros/usuarios">Usuários</router-link>
                                 </li>
                             </ul>
                         </li>
