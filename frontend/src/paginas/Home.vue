@@ -33,6 +33,7 @@ export default {
                         this.anuncios.push(lista[i]);
                 })
                 .catch(erro => {
+                    console.log(erro);
                     toast.error("Erro ao carregar anúncios!", {
                         autoClose: 2000
                     });

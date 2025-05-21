@@ -88,6 +88,7 @@ export default {
                 if (this.nome.length > 0)
                     axios.put(url, data)
                         .then(resposta => {
+                            console.log(resposta);
                             this.carregarDados();
                             toast.success("Usuário alterado com sucesso!", {
                                 autoClose: 2000
@@ -96,6 +97,7 @@ export default {
                             this.limparForm();
                         })
                         .catch(erro => {
+                            console.log(erro);
                             toast.error("Erro ao alterar usuário!", {
                                 autoClose: 2000
                             })
@@ -111,6 +113,7 @@ export default {
                 if (this.nome.length > 0)
                     axios.post(url, data)
                         .then(resposta => {
+                            console.log(resposta);
                             this.carregarDados();
                             toast.success("Usuário gravado com sucesso!", {
                                 autoClose: 2000
@@ -118,6 +121,7 @@ export default {
                             this.limparForm();
                         })
                         .catch(erro => {
+                            console.log(erro);
                             toast.error("Erro ao gravar usuário!", {
                                 autoClose: 2000
                             });
@@ -133,6 +137,7 @@ export default {
             if (window.confirm("Deseja realmente deletar o usuário " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
+                        console.log(resposta);
                         toast.success("Usuário removido com sucesso!", {
                             autoClose: 2000
                         });
@@ -170,6 +175,7 @@ export default {
                     this.usuarios = resposta.data;
                 })
                 .catch(erro => {
+                    console.log(erro);
                     toast.error("Erro ao carregar usuários!", {
                         autoClose: 2000
                     });

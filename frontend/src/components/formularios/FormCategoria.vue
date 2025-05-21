@@ -87,6 +87,7 @@ export default {
                 if (this.nome.length > 0)
                     axios.put(url, data)
                         .then(resposta => {
+                            console.log(resposta);
                             this.carregarDados();
                             toast.success("Categoria alterada com sucesso!", {
                                 autoClose: 2000
@@ -95,6 +96,7 @@ export default {
                             this.limparForm();
                         })
                         .catch(erro => {
+                            console.log(erro);
                             toast.error("Erro ao alterar categoria!", {
                                 autoClose: 2000
                             })
@@ -110,6 +112,7 @@ export default {
                 if (this.nome.length > 0)
                     axios.post(url, data)
                         .then(resposta => {
+                            console.log(resposta);
                             this.carregarDados();
                             toast.success("Categoria gravada com sucesso!", {
                                 autoClose: 2000
@@ -117,6 +120,7 @@ export default {
                             this.limparForm();
                         })
                         .catch(erro => {
+                            console.log(erro);
                             toast.error("Erro ao gravar categoria!", {
                                 autoClose: 2000
                             });
@@ -132,6 +136,7 @@ export default {
             if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
+                        console.log(resposta);
                         toast.success("Categoria removida com sucesso!", {
                             autoClose: 2000
                         });
@@ -169,6 +174,7 @@ export default {
                     this.categorias = resposta.data;
                 })
                 .catch(erro => {
+                    console.log(erro);
                     toast.error("Erro ao carregar categorias!", {
                         autoClose: 2000
                     });
