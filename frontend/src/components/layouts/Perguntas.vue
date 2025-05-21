@@ -27,7 +27,7 @@
 export default {
     name: "Perguntas",
     props: {
-        perguntas: []
+        perguntas: Array
     }
 }
 </script>

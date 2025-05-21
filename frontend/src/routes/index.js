@@ -6,6 +6,7 @@ import Categorias from "@/paginas/Categorias.vue";
 import Usuarios from "@/paginas/Usuarios.vue";
 import Anuncio from "@/paginas/Anuncio.vue";
 import CadAnuncio from "@/paginas/CadAnuncio.vue";
+import Erro from "@/paginas/Erro.vue";
 
 const routes = [
     {
@@ -56,6 +57,17 @@ const routes = [
         meta: {
             title: "Anúncio"
         }
+    },
+    {
+        path: '/erro',
+        component: Erro,
+        meta: {
+            title: "Erro"
+        }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/erro'
     }
 ];
 
@@ -64,7 +76,7 @@ const router = createRouter({
     routes
 });
 
-// Aplicar títulos em cada rota.
+// Aplicar títulos nas rota.
 router.beforeEach((to, from, next) => {
     const defaultTitle = "Mercado FIPP";
     document.title = to.meta.title || defaultTitle;

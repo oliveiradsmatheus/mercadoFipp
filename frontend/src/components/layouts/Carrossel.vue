@@ -1,23 +1,27 @@
 <template>
-    <div class="col-md-6">
+    <div v-if="this.fotos.length === 0" class="col-md-6 align-content-center">
+        <img src="../../assets/imagens/ine.jpg" class="d-block w-100 rounded" alt="Imagem Indisponível">
+    </div>
+    <div v-else class="col-md-6">
         <div id="carouselExampleDark" class="carousel carousel-dark slide">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+                <button
+                    v-for="(foto, index) in fotos"
+                    :key="foto.id"
+                    :data-bs-target="'#carouselExampleDark'"
+                    :data-bs-slide-to="index"
+                    :class="{'active': index === 0}"
+                    :aria-label="'Slide ' + (index + 1)"
+                ></button>
             </div>
             <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="../../assets/fonte2.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item" data-bs-interval="2000">
-                    <img src="../../assets/fonte2.jpg" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="../../assets/fonte3.jpg" class="d-block w-100" alt="...">
+                <div
+                    v-for="(foto, index) in fotos"
+                    :key="foto.id"
+                    :class="{'carousel-item': true, 'active': index === 0}"
+                    data-bs-interval="10000"
+                >
+                    <img :src="foto.img64" class="d-block w-100 rounded" alt="Imagem">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
@@ -34,23 +38,10 @@
     </div>
 </template>
 
-<script>
-export default {
+<script>export default {
     name: "Carrossel",
     props: {
-        fotos: []
-    },
-    methods: {
-        adicionarFotos() {
-            const url = "http://localhost:/8080/apis/foto/" 
-            const caminho = "../../assets/fonte2.jpg"
-            for( let i = 0; i < 3; i++)
-                this.fotos[i] = caminho;
-            console.log(this.fotos);
-        }
-    },
-    mounted() {
-        this.adicionarFotos();
+        fotos: Array
     }
 }
 </script>

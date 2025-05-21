@@ -37,7 +37,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="fotos" class="form-label">Fotos (até 3)</label>
-                        <input type="file" class="form-control" id="fotos" accept="image/*" multiple/>
+                        <input type="file" class="form-control" id="fotos" accept="image/*" multiple
+                               @change="this.adicionarArquivos"/>
                         <div class="form-text">Você pode adicionar até 3 imagens.</div>
                     </div>
                     <div class="d-grid">
@@ -85,32 +86,53 @@ export default {
         },
         gravarAnuncio() {
             const url = "http://localhost:8080/apis/anuncio";
-            const data = {
+            const formData = new FormData();
+
+            const anuncio = {
                 titulo: this.titulo,
                 data: this.data,
                 descricao: this.descricao,
                 preco: this.preco,
                 categoria: {
-                    id: 2
+                    id: this.idCategoria
                 },
                 usuario: {
                     id: 2
                 },
-                perguntas: [],
-                fotos: [],
+                perguntas: []
             };
-            axios.post(url, data)
+
+            // Adiciona o objeto 'anuncio' como JSON em FormData
+            formData.append("anuncio", new Blob([JSON.stringify(anuncio)], { type: "application/json" }));
+
+            // Adiciona as fotos ao FormData
+            this.fotos.forEach((foto, index) => {
+                console.log(`Adicionando foto ${index + 1}:`, foto); // Verifique no console
+                formData.append("fotos", foto); // Adicionando foto ao FormData
+            });
+
+            // Verificar o conteúdo do FormData
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ": " + pair[1]); // Mostra todos os campos do FormData
+            }
+
+            // Envia a requisição para o backend
+            axios.post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
                 .then(resposta => {
                     console.log(resposta);
-                    toast.success("Anúncio gravado com sucesso!", {
-                        autoClose: 2000
-                    });
+                    toast.success("Anúncio gravado com sucesso!", { autoClose: 2000 });
                 })
                 .catch(erro => {
-                    toast.error("Erro ao gravar anúncio! " + erro, {
-                        autoClose: 2000
-                    });
+                    console.error(erro);
+                    toast.error("Erro ao gravar anúncio!", { autoClose: 2000 });
                 });
+        },
+        adicionarArquivos(event) {
+            this.fotos = Array.from(event.target.files).slice(0, 3);
         }
     },
     mounted() {
