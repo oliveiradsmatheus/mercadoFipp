@@ -28,6 +28,7 @@ export default {
 
             axios.get(url)
                 .then(resposta => {
+                    console.log(resposta);
                     let lista = resposta.data;
                     for (let i = lista.length - 1, j = 0; i >= 0 && j < 5; i--, j++)
                         this.anuncios.push(lista[i]);

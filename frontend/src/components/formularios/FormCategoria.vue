@@ -143,6 +143,7 @@ export default {
                         this.carregarDados();
                     })
                     .catch(erro => {
+                        console.log(erro);
                         let er = erro + "";
                         if (er.endsWith("400"))
                             toast.error("Erro ao remover categoria! Produtos cadastrados na categoria!", {
@@ -171,6 +172,7 @@ export default {
 
             axios.get(url)
                 .then(resposta => {
+                    console.log(resposta);
                     this.categorias = resposta.data;
                 })
                 .catch(erro => {

@@ -73,9 +73,11 @@ export default {
             const url = "http://localhost:8080/apis/categoria";
             axios.get(url)
                 .then(resposta => {
+                    console.log(resposta);
                     this.categorias = resposta.data;
                 })
                 .catch(erro => {
+                    console.log(erro);
                     toast.error("Erro ao carregar categorias!", {
                         autoClose: 2000
                     });
@@ -99,6 +101,7 @@ export default {
             };
             axios.post(url, data)
                 .then(resposta => {
+                    console.log(resposta);
                     toast.success("Anúncio gravado com sucesso!", {
                         autoClose: 2000
                     });

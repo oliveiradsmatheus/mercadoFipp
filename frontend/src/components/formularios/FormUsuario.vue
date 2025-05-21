@@ -144,6 +144,7 @@ export default {
                         this.carregarDados();
                     })
                     .catch(erro => {
+                        console.log(erro);
                         let er = erro + "";
                         if (er.endsWith("400"))
                             toast.error("Erro ao remover usuário! O usuário possui anúncios ativos!", {
@@ -172,6 +173,7 @@ export default {
 
             axios.get(url)
                 .then(resposta => {
+                    console.log(resposta);
                     this.usuarios = resposta.data;
                 })
                 .catch(erro => {

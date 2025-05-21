@@ -49,6 +49,7 @@ export default {
                     this.anuncio = resposta.data;
                 })
                 .catch(erro => {
+                    console.log(erro);
                     toast.error("Erro ao alterar categoria!", {
                         autoClose: 2000
                     })
