@@ -8,7 +8,9 @@
         <p><strong>Data de criação:</strong> {{ anuncio.data }}</p>
         <hr>
         <h5>Vendedor</h5>
-        <p><strong>Usuário:</strong> {{ anuncio.usuario.nome }}</p>
+        <p>
+            <strong>Usuário:</strong> {{ anuncio.usuario.nome }}
+        </p>
     </div>
 </template>
 

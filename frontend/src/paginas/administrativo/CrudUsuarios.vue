@@ -6,7 +6,7 @@
 import FormUsuario from "@/components/formularios/administrativo/FormUsuario.vue";
 
 export default {
-    name: "Usuarios",
+    name: "CrudUsuarios",
     components: {FormUsuario}
 }
 </script>

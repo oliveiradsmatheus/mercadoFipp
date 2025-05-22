@@ -2,26 +2,29 @@
     <div class="container mt-4">
         <h1>Cadastro de Categorias</h1><br>
         <div v-if="formOn">
-            <form @submit.prevent="this.gravar()">
-                <div class="mb-3">
-                    <label for="idcat" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
-                           disabled>
-                </div>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nome da Categoria</label>
-                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome da Categoria">
-                </div>
-                <div class="botoes">
-                    <div v-if="modoEdicao">
-                        <input class="btn btn-primary" type="submit" value="Alterar">
+            <div class="container border p-4">
+                <form @submit.prevent="this.gravar()">
+                    <div class="mb-3">
+                        <label for="idcat" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
+                               disabled>
                     </div>
-                    <div v-else>
-                        <input class="btn btn-primary" type="submit" value="Cadastrar">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome da Categoria</label>
+                        <input type="text" class="form-control" id="name" v-model="nome"
+                               placeholder="Nome da Categoria">
                     </div>
-                    <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
-                </div>
-            </form>
+                    <div class="botoes">
+                        <div v-if="modoEdicao">
+                            <input class="btn btn-primary" type="submit" value="Alterar">
+                        </div>
+                        <div v-else>
+                            <input class="btn btn-primary" type="submit" value="Cadastrar">
+                        </div>
+                        <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="botaoForm">
             <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
@@ -36,14 +39,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cat in this.categorias">
-                        <td>{{ cat.id }}</td>
-                        <td>{{ cat.nome }}</td>
+                    <tr v-for="categoria in this.categorias">
+                        <td>{{ categoria.id }}</td>
+                        <td>{{ categoria.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.alterar(cat)" class="btn btn-warning">
+                            <button @click="this.alterar(categoria)" class="btn btn-warning">
                                 <img src="../../../assets/icones/acoes/editar.svg" alt="">
                             </button>
-                            <button @click="this.apagar(cat.id)" class=" btn btn-danger">
+                            <button @click="this.apagar(categoria.id)" class=" btn btn-danger">
                                 <img src="../../../assets/icones/acoes/deletar.svg" alt="">
                             </button>
                         </td>
@@ -88,7 +91,7 @@ export default {
                     axios.put(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarCategorias();
                             toast.success("Categoria alterada com sucesso!", {
                                 autoClose: 2000
                             });
@@ -113,7 +116,7 @@ export default {
                     axios.post(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarCategorias();
                             toast.success("Categoria gravada com sucesso!", {
                                 autoClose: 2000
                             });
@@ -140,7 +143,7 @@ export default {
                         toast.success("Categoria removida com sucesso!", {
                             autoClose: 2000
                         });
-                        this.carregarDados();
+                        this.carregarCategorias();
                     })
                     .catch(erro => {
                         console.log(erro);
@@ -167,7 +170,7 @@ export default {
             this.modoEdicao = false;
             this.formOn = false;
         },
-        carregarDados() {
+        carregarCategorias() {
             const url = "http://localhost:8080/apis/categoria";
 
             axios.get(url)
@@ -200,7 +203,7 @@ export default {
         }
     },
     mounted() {
-        this.carregarDados();
+        this.carregarCategorias();
     }
 }
 </script>

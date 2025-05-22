@@ -1,13 +1,15 @@
 <template>
-    <FormCategoria/>
+    <FormAnuncio/>
 </template>
 
 <script>
-import FormCategoria from "@/components/formularios/administrativo/FormCategoria.vue";
+import FormAnuncio from "@/components/formularios/administrativo/FormAnuncio.vue";
 
 export default {
-    name: "Categorias",
-    components: {FormCategoria}
+    name: "CrudAnuncios",
+    components: {
+        FormAnuncio
+    }
 }
 </script>
 

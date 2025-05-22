@@ -28,7 +28,7 @@ import axios from "axios";
 import {toast} from "vue3-toastify";
 
 export default {
-    name: "FormPergunta",
+    name: "CadPergunta",
     data() {
         return {
             id: this.$route.params.id,

@@ -25,15 +25,15 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <router-link class="dropdown-item" to="/administrativo/anuncios">Anúncios
+                                    <router-link class="dropdown-item" to="/adm/anuncios">Anúncios
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" to="/administrativo/categorias">Categorias
+                                    <router-link class="dropdown-item" to="/adm/categorias">Categorias
                                     </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" to="/administrativo/usuarios">Usuários
+                                    <router-link class="dropdown-item" to="/adm/usuarios">Usuários
                                     </router-link>
                                 </li>
                             </ul>
@@ -86,7 +86,6 @@ export default {
 </script>
 
 <style scoped>
-
 .navbar {
     display: flex;
     justify-content: space-between;

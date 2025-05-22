@@ -63,21 +63,21 @@ const routes = [
         }
     },
     {
-        path: "/administrativo/anuncios",
+        path: "/adm/anuncios",
         component: CrudAnuncios,
         meta: {
             title: "Painel administrativo - Anúncios"
         }
     },
     {
-        path: "/administrativo/categorias",
+        path: "/adm/categorias",
         component: CrudCategorias,
         meta: {
             title: "Painel administrativo - Categorias"
         }
     },
     {
-        path: "/administrativo/usuarios",
+        path: "/adm/usuarios",
         component: CrudUsuarios,
         meta: {
             title: "Painel administrativo - Usuários"

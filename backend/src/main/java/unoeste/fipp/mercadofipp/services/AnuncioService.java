@@ -75,6 +75,8 @@ public class AnuncioService {
     public boolean delete(long id) {
         Anuncio anuncio = anuncioRepository.findById(id).orElse(null);
         try {
+            anuncioRepository.delFoto(anuncio.getId());
+            anuncioRepository.delPergunta(anuncio.getId());
             anuncioRepository.delete(anuncio);
             return true;
         } catch (Exception e) {

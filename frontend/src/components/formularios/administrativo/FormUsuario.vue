@@ -1,28 +1,36 @@
 <template>
-
     <div class="container mt-4">
         <h1>Cadastro de Usuários</h1><br>
         <div v-if="formOn">
-            <form @submit.prevent="this.gravar()">
-                <div class="mb-3">
-                    <label for="idusr" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="idusr" v-model="id" placeholder="Id do Usuário"
-                           disabled>
-                </div>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nome do Usuário</label>
-                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome do Usuário">
-                </div>
-                <div class="botoes">
-                    <div v-if="modoEdicao">
-                        <input class="btn btn-primary" type="submit" value="Alterar">
+            <div class="container border p-4">
+                <form @submit.prevent="this.gravar()">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="idusr" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="idusr" v-model="id" placeholder="Id do Usuário"
+                                   disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nivel" class="form-label">Nível</label>
+                            <input type="text" class="form-control" id="nivel" v-model="nivel"
+                                   placeholder="Nível do Usuário">
+                        </div>
                     </div>
-                    <div v-else>
-                        <input class="btn btn-primary" type="submit" value="Cadastrar">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome do Usuário</label>
+                        <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome do Usuário">
                     </div>
-                    <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
-                </div>
-            </form>
+                    <div class="botoes">
+                        <div v-if="modoEdicao">
+                            <input class="btn btn-primary" type="submit" value="Alterar">
+                        </div>
+                        <div v-else>
+                            <input class="btn btn-primary" type="submit" value="Cadastrar">
+                        </div>
+                        <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="botaoForm">
             <button class="btn btn-primary" @click="mostrarForm(true)">Novo Usuário</button>
@@ -32,7 +40,7 @@
                 <thead>
                     <tr>
                         <th scope="col" @click="ordenarId()">Id</th>
-                        <th scope="col" @click="ordenarId()">Nível</th>
+                        <th scope="col" @click="ordenarNivel()">Nível</th>
                         <th scope="col" @click="ordenarNome()">Nome</th>
                         <th scope="col" colspan="2">Ações</th>
                     </tr>
@@ -71,10 +79,12 @@ export default {
         return {
             id: 0,
             nome: "",
+            nivel: 1,
             formOn: false,
             modoEdicao: false,
-            nomeOrdenado: false,
             idOrdenado: false,
+            nomeOrdenado: false,
+            nivelOrdenado: false,
             usuarios: []
         }
     },
@@ -85,13 +95,13 @@ export default {
         gravar() {
             const url = "http://localhost:8080/apis/usuario";
             if (this.modoEdicao) {
-                const data = {id: this.id, nome: this.nome};
+                const data = {id: this.id, nome: this.nome, nivel: this.nivel};
 
                 if (this.nome.length > 0)
                     axios.put(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarUsuarios();
                             toast.success("Usuário alterado com sucesso!", {
                                 autoClose: 2000
                             });
@@ -116,7 +126,7 @@ export default {
                     axios.post(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarUsuarios();
                             toast.success("Usuário gravado com sucesso!", {
                                 autoClose: 2000
                             });
@@ -143,7 +153,7 @@ export default {
                         toast.success("Usuário removido com sucesso!", {
                             autoClose: 2000
                         });
-                        this.carregarDados();
+                        this.carregarUsuarios();
                     })
                     .catch(erro => {
                         console.log(erro);
@@ -161,16 +171,18 @@ export default {
         alterar(usuario) {
             this.mostrarForm(true);
             this.id = usuario.id;
+            this.nivel = usuario.nivel;
             this.nome = usuario.nome;
             this.modoEdicao = true;
         },
         limparForm() {
             this.id = 0;
-            this.nome = ""
+            this.nome = "";
+            this.nivel = 1;
             this.modoEdicao = false;
             this.formOn = false;
         },
-        carregarDados() {
+        carregarUsuarios() {
             const url = "http://localhost:8080/apis/usuario";
 
             axios.get(url)
@@ -192,6 +204,7 @@ export default {
                 this.usuarios.sort((a, b) => b.nome.localeCompare(a.nome));
             this.nomeOrdenado = !this.nomeOrdenado;
             this.idOrdenado = false;
+            this.nivelOrdenado = false;
         },
         ordenarId() {
             if (!this.idOrdenado)
@@ -200,10 +213,20 @@ export default {
                 this.usuarios.sort((a, b) => b.id - a.id);
             this.idOrdenado = !this.idOrdenado;
             this.nomeOrdenado = false;
+            this.nivelOrdenado = false;
+        },
+        ordenarNivel() {
+            if (!this.nivelOrdenado)
+                this.usuarios.sort((a, b) => a.nivel - b.nivel);
+            else
+                this.usuarios.sort((a, b) => b.nivel - a.nivel);
+            this.nivelOrdenado = !this.nivelOrdenado;
+            this.nomeOrdenado = false;
+            this.idOrdenado = false;
         }
     },
     mounted() {
-        this.carregarDados();
+        this.carregarUsuarios();
     }
 }
 </script>

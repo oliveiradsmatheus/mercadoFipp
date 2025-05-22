@@ -1,7 +1,55 @@
 <template>
     <div class="container mt-4">
-        <h1>Cadastro de Categorias</h1><br>
+        <h1>Cadastro de Anúncios</h1><br>
         <div v-if="formOn">
+            <div class="container border p-4">
+                <form @submit.prevent="gravar">
+
+                    <!-- Título -->
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="titulo" v-model="titulo"
+                               placeholder="Título do anúncio">
+                    </div>
+
+                    <!-- Data -->
+                    <div class="mb-3">
+                        <label for="data" class="form-label">Data</label>
+                        <input type="date" class="form-control" id="data" v-model="data">
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" id="descricao" v-model="descricao" rows="3"
+                                  placeholder="Descrição do produto"></textarea>
+                    </div>
+
+                    <!-- Preço -->
+                    <div class="mb-3">
+                        <label for="preco" class="form-label">Preço (R$)</label>
+                        <input type="number" class="form-control" id="preco" v-model="preco" min="0" step="0.01">
+                    </div>
+
+                    <!-- Categoria -->
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categoria</label>
+                        <select class="form-select" id="categoria" v-model="categoriaId">
+                            <option disabled value="">Selecione uma categoria</option>
+                            <option v-for="cat in categorias" :key="cat.cat_id" :value="cat.cat_id">
+                                {{ cat.cat_name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Botões -->
+                    <div class="botoes">
+                        <input class="btn btn-primary" type="submit" value="Salvar">
+                        <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
+                    </div>
+
+                </form>
+            </div>
             <form @submit.prevent="this.gravar()">
                 <div class="mb-3">
                     <label for="idcat" class="form-label">ID</label>
@@ -31,21 +79,31 @@
                 <thead>
                     <tr>
                         <th scope="col" @click="ordenarId()">Id</th>
-                        <th scope="col" @click="ordenarNome()">Nome</th>
+                        <th scope="col" @click="ordenarTitulo()">Título</th>
+                        <th scope="col" @click="ordenarTitulo()">Descrição</th>
+                        <th scope="col" @click="ordenarTitulo()">Preço</th>
+                        <th scope="col" @click="ordenarTitulo()">Categoria</th>
+                        <th scope="col" @click="ordenarTitulo()">Usuário</th>
                         <th scope="col" colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="cat in this.categorias">
-                        <td>{{ cat.id }}</td>
-                        <td>{{ cat.nome }}</td>
-                        <td class="acoes">
-                            <button @click="this.alterar(cat)" class="btn btn-warning">
-                                <img src="../../../assets/icones/acoes/editar.svg" alt="">
-                            </button>
-                            <button @click="this.apagar(cat.id)" class=" btn btn-danger">
-                                <img src="../../../assets/icones/acoes/deletar.svg" alt="">
-                            </button>
+                    <tr v-for="anuncio in this.anuncios">
+                        <td>{{ anuncio.id }}</td>
+                        <td>{{ anuncio.titulo }}</td>
+                        <td>{{ anuncio.descricao }}</td>
+                        <td>{{ anuncio.preco }}</td>
+                        <td>{{ anuncio.categoria.nome }}</td>
+                        <td>{{ anuncio.usuario.nome }}</td>
+                        <td>
+                            <div class="acoes">
+                                <button @click="this.alterar(anuncio)" class="btn btn-warning">
+                                    <img src="../../../assets/icones/acoes/editar.svg" alt="">
+                                </button>
+                                <button @click="this.apagar(anuncio.id)" class=" btn btn-danger">
+                                    <img src="../../../assets/icones/acoes/deletar.svg" alt="">
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -70,9 +128,11 @@ export default {
             nome: "",
             formOn: false,
             modoEdicao: false,
-            nomeOrdenado: false,
+            tituloOrdenado: false,
             idOrdenado: false,
-            categorias: []
+            anuncios: [],
+            categorias: [],
+            usuarios: []
         }
     },
     methods: {
@@ -167,7 +227,7 @@ export default {
             this.modoEdicao = false;
             this.formOn = false;
         },
-        carregarDados() {
+        carregarCategorias() {
             const url = "http://localhost:8080/apis/categoria";
 
             axios.get(url)
@@ -182,25 +242,57 @@ export default {
                     });
                 });
         },
-        ordenarNome() {
-            if (!this.nomeOrdenado)
-                this.categorias.sort((a, b) => a.nome.localeCompare(b.nome));
+        carregarUsuarios() {
+            const url = "http://localhost:8080/apis/usuario";
+
+            axios.get(url)
+                .then(resposta => {
+                    console.log(resposta);
+                    this.usuarios = resposta.data;
+                })
+                .catch(erro => {
+                    console.log(erro);
+                    toast.error("Erro ao carregar usuários!", {
+                        autoClose: 2000
+                    });
+                });
+        },
+        carregarAnuncios() {
+            const url = "http://localhost:8080/apis/anuncio";
+
+            axios.get(url)
+                .then(resposta => {
+                    console.log(resposta);
+                    this.anuncios = resposta.data;
+                })
+                .catch(erro => {
+                    console.log(erro);
+                    toast.error("Erro ao carregar anúncios!", {
+                        autoClose: 2000
+                    });
+                });
+        },
+        ordenarTitulo() {
+            if (!this.tituloOrdenado)
+                this.anuncios.sort((a, b) => a.titulo.localeCompare(b.titulo));
             else
-                this.categorias.sort((a, b) => b.nome.localeCompare(a.nome));
-            this.nomeOrdenado = !this.nomeOrdenado;
+                this.anuncios.sort((a, b) => b.titulo.localeCompare(a.titulo));
+            this.tituloOrdenado = !this.tituloOrdenado;
             this.idOrdenado = false;
         },
         ordenarId() {
             if (!this.idOrdenado)
-                this.categorias.sort((a, b) => a.id - b.id);
+                this.anuncios.sort((a, b) => a.id - b.id);
             else
-                this.categorias.sort((a, b) => b.id - a.id);
+                this.anuncios.sort((a, b) => b.id - a.id);
             this.idOrdenado = !this.idOrdenado;
-            this.nomeOrdenado = false;
+            this.tituloOrdenado = false;
         }
     },
     mounted() {
-        this.carregarDados();
+        this.carregarCategorias();
+        this.carregarUsuarios();
+        this.carregarAnuncios();
     }
 }
 </script>
@@ -230,7 +322,9 @@ form > div > .btn {
 
 .acoes {
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 8px;
 }
 
 .acoes > .btn-warning {

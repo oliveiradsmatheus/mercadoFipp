@@ -6,7 +6,7 @@
 import FormCategoria from "@/components/formularios/administrativo/FormCategoria.vue";
 
 export default {
-    name: "Categorias",
+    name: "CrudCategorias",
     components: {FormCategoria}
 }
 </script>

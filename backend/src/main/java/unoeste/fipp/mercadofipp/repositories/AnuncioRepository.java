@@ -32,4 +32,18 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
             @Param("id_anuncio") Long id_anuncio,
             @Param("extensao") String extensao
     );
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM foto_anuncio WHERE anu_id = :id_anuncio", nativeQuery = true)
+    public void delFoto(
+            @Param("id_anuncio") Long id_anuncio
+    );
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM pergunta_anuncio WHERE anu_id = :id_anuncio", nativeQuery = true)
+    public void delPergunta(
+            @Param("id_anuncio") Long id_anuncio
+    );
 }

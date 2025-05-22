@@ -71,6 +71,13 @@ public class AnuncioRestController {
         return ResponseEntity.badRequest().body(new Erro("Erro ao cadastrar anúncio!"));
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Object> delAnuncio(@PathVariable Long id) {
+        if (anuncioService.delete(id))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.badRequest().body(new Erro("Erro ao apagar categoria!"));
+    }
+
     /*@PutMapping
     public ResponseEntity<Object> updAnuncio(@RequestBody Anuncio anuncio) {
         Anuncio novo = anuncioService.save(anuncio);
