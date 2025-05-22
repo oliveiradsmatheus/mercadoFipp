@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import FormCategoria from "@/components/formularios/administrativo/FormCategoria.vue";
+import TabCategoria from "@/components/formularios/administrativo/TabCategoria.vue";
 
 export default {
     name: "CrudCategorias",
-    components: {FormCategoria}
+    components: {FormCategoria: TabCategoria}
 }
 </script>
 

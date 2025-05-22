@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import FormAnuncio from "@/components/formularios/administrativo/FormAnuncio.vue";
+import TabAnuncio from "@/components/formularios/administrativo/TabAnuncio.vue";
 
 export default {
     name: "CrudAnuncios",
     components: {
-        FormAnuncio
+        FormAnuncio: TabAnuncio
     }
 }
 </script>

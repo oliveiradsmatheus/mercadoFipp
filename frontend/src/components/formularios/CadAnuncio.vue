@@ -102,21 +102,11 @@ export default {
                 perguntas: []
             };
 
-            // Adiciona o objeto 'anuncio' como JSON em FormData
-            formData.append("anuncio", new Blob([JSON.stringify(anuncio)], { type: "application/json" }));
-
-            // Adiciona as fotos ao FormData
-            this.fotos.forEach((foto, index) => {
-                console.log(`Adicionando foto ${index + 1}:`, foto); // Verifique no console
-                formData.append("fotos", foto); // Adicionando foto ao FormData
+            formData.append("anuncio", new Blob([JSON.stringify(anuncio)], {type: "application/json"}));
+            this.fotos.forEach((foto) => {
+                formData.append("fotos", foto);
             });
 
-            // Verificar o conteúdo do FormData
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ": " + pair[1]); // Mostra todos os campos do FormData
-            }
-
-            // Envia a requisição para o backend
             axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -124,11 +114,11 @@ export default {
             })
                 .then(resposta => {
                     console.log(resposta);
-                    toast.success("Anúncio gravado com sucesso!", { autoClose: 2000 });
+                    toast.success("Anúncio gravado com sucesso!", {autoClose: 2000});
                 })
                 .catch(erro => {
                     console.error(erro);
-                    toast.error("Erro ao gravar anúncio!", { autoClose: 2000 });
+                    toast.error("Erro ao gravar anúncio!", {autoClose: 2000});
                 });
         },
         adicionarArquivos(event) {
@@ -142,4 +132,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

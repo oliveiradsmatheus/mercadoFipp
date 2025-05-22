@@ -1,24 +1,18 @@
 <template>
     <div class="container mt-4">
-        <h1>Cadastro de Usuários</h1><br>
+        <h1>Cadastro de Categorias</h1><br>
         <div v-if="formOn">
             <div class="container border p-4">
                 <form @submit.prevent="this.gravar()">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="idusr" class="form-label">ID</label>
-                            <input type="text" class="form-control" id="idusr" v-model="id" placeholder="Id do Usuário"
-                                   disabled>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="nivel" class="form-label">Nível</label>
-                            <input type="text" class="form-control" id="nivel" v-model="nivel"
-                                   placeholder="Nível do Usuário">
-                        </div>
+                    <div class="mb-3">
+                        <label for="idcat" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
+                               disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nome do Usuário</label>
-                        <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome do Usuário">
+                        <label for="name" class="form-label">Nome da Categoria</label>
+                        <input type="text" class="form-control" id="name" v-model="nome"
+                               placeholder="Nome da Categoria">
                     </div>
                     <div class="botoes">
                         <div v-if="modoEdicao">
@@ -33,28 +27,26 @@
             </div>
         </div>
         <div class="botaoForm">
-            <button class="btn btn-primary" @click="mostrarForm(true)">Novo Usuário</button>
+            <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
         </div>
         <div class="mt-4">
-            <table class="table table-striped table-hover" id="usuarios">
+            <table class="table table-striped table-hover" id="categorias">
                 <thead>
                     <tr>
-                        <th scope="col" @click="ordenarId()">Id</th>
-                        <th scope="col" @click="ordenarNivel()">Nível</th>
-                        <th scope="col" @click="ordenarNome()">Nome</th>
+                        <th scope="col" @click="this.ordenar('id')">Id</th>
+                        <th scope="col" @click="this.ordenar('nome')">Nome</th>
                         <th scope="col" colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="usuario in this.usuarios">
-                        <td>{{ usuario.id }}</td>
-                        <td>{{ usuario.nivel }}</td>
-                        <td>{{ usuario.nome }}</td>
+                    <tr v-for="categoria in this.categorias">
+                        <td>{{ categoria.id }}</td>
+                        <td>{{ categoria.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.alterar(usuario)" class="btn alterar">
+                            <button @click="this.alterar(categoria)" class="btn btn-warning">
                                 <img src="../../../assets/icones/acoes/editar.svg" alt="">
                             </button>
-                            <button @click="this.apagar(usuario.id)" class=" btn excluir">
+                            <button @click="this.apagar(categoria.id)" class=" btn btn-danger">
                                 <img src="../../../assets/icones/acoes/deletar.svg" alt="">
                             </button>
                         </td>
@@ -74,18 +66,18 @@ import "vue3-toastify/dist/index.css"
 import axios from "axios";
 
 export default {
-    name: "FormUsuario",
+    name: 'TabCategoria',
     data() {
         return {
             id: 0,
             nome: "",
-            nivel: 1,
             formOn: false,
             modoEdicao: false,
-            idOrdenado: false,
-            nomeOrdenado: false,
-            nivelOrdenado: false,
-            usuarios: []
+            categorias: [],
+            ordenado: {
+                id: false,
+                nome: false
+            }
         }
     },
     methods: {
@@ -93,16 +85,16 @@ export default {
             this.formOn = flag;
         },
         gravar() {
-            const url = "http://localhost:8080/apis/usuario";
+            const url = 'http://localhost:8080/apis/categoria';
             if (this.modoEdicao) {
-                const data = {id: this.id, nome: this.nome, nivel: this.nivel};
+                const data = {id: this.id, nome: this.nome};
 
                 if (this.nome.length > 0)
                     axios.put(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarUsuarios();
-                            toast.success("Usuário alterado com sucesso!", {
+                            this.carregarCategorias();
+                            toast.success("Categoria alterada com sucesso!", {
                                 autoClose: 2000
                             });
                             this.modoEdicao = false;
@@ -110,12 +102,12 @@ export default {
                         })
                         .catch(erro => {
                             console.log(erro);
-                            toast.error("Erro ao alterar usuário!", {
+                            toast.error("Erro ao alterar categoria!", {
                                 autoClose: 2000
                             })
                         })
                 else
-                    toast.warning("Insira um nome para o usuário!", {
+                    toast.warning("Insira um nome para a categoria!", {
                         autoClose: 2000
                     });
 
@@ -126,107 +118,92 @@ export default {
                     axios.post(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarUsuarios();
-                            toast.success("Usuário gravado com sucesso!", {
+                            this.carregarCategorias();
+                            toast.success("Categoria gravada com sucesso!", {
                                 autoClose: 2000
                             });
                             this.limparForm();
                         })
                         .catch(erro => {
                             console.log(erro);
-                            toast.error("Erro ao gravar usuário!", {
+                            toast.error("Erro ao gravar categoria!", {
                                 autoClose: 2000
                             });
                         });
                 else
-                    toast.warning("Insira um nome para o usuário!", {
+                    toast.warning("Insira um nome para a categoria!", {
                         autoClose: 2000
                     });
             }
         },
         apagar(id) {
-            const url = `http://localhost:8080/apis/usuario/${id}`;
-            if (window.confirm("Deseja realmente deletar o usuário " + id + "?"))
+            const url = "http://localhost:8080/apis/categoria/" + id;
+            if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
                         console.log(resposta);
-                        toast.success("Usuário removido com sucesso!", {
+                        toast.success("Categoria removida com sucesso!", {
                             autoClose: 2000
                         });
-                        this.carregarUsuarios();
+                        this.carregarCategorias();
                     })
                     .catch(erro => {
                         console.log(erro);
                         let er = erro + "";
                         if (er.endsWith("400"))
-                            toast.error("Erro ao remover usuário! O usuário possui anúncios ativos!", {
+                            toast.error("Erro ao remover categoria! Produtos cadastrados na categoria!", {
                                 autoClose: 2000
                             });
                         else
-                            toast.error("Erro ao remover usuário!", {
+                            toast.error("Erro ao remover categoria!", {
                                 autoClose: 2000
                             });
                     })
         },
-        alterar(usuario) {
+        alterar(cat) {
             this.mostrarForm(true);
-            this.id = usuario.id;
-            this.nivel = usuario.nivel;
-            this.nome = usuario.nome;
+            this.id = cat.id;
+            this.nome = cat.nome;
             this.modoEdicao = true;
         },
         limparForm() {
             this.id = 0;
-            this.nome = "";
-            this.nivel = 1;
+            this.nome = ""
             this.modoEdicao = false;
             this.formOn = false;
         },
-        carregarUsuarios() {
-            const url = "http://localhost:8080/apis/usuario";
+        carregarCategorias() {
+            const url = "http://localhost:8080/apis/categoria";
 
             axios.get(url)
                 .then(resposta => {
                     console.log(resposta);
-                    this.usuarios = resposta.data;
+                    this.categorias = resposta.data;
                 })
                 .catch(erro => {
                     console.log(erro);
-                    toast.error("Erro ao carregar usuários!", {
+                    toast.error("Erro ao carregar categorias!", {
                         autoClose: 2000
                     });
                 });
         },
-        ordenarNome() {
-            if (!this.nomeOrdenado)
-                this.usuarios.sort((a, b) => a.nome.localeCompare(b.nome));
+        ordenar(campo) {
+            this.ordenado[campo] = !this.ordenado[campo];
+            if (typeof this.categorias[0]?.[campo] === "number")
+                this.ordenado[campo] ?
+                    this.categorias.sort((a, b) => b[campo] - a[campo]) :
+                    this.categorias.sort((a, b) => a[campo] - b[campo]);
             else
-                this.usuarios.sort((a, b) => b.nome.localeCompare(a.nome));
-            this.nomeOrdenado = !this.nomeOrdenado;
-            this.idOrdenado = false;
-            this.nivelOrdenado = false;
-        },
-        ordenarId() {
-            if (!this.idOrdenado)
-                this.usuarios.sort((a, b) => a.id - b.id);
-            else
-                this.usuarios.sort((a, b) => b.id - a.id);
-            this.idOrdenado = !this.idOrdenado;
-            this.nomeOrdenado = false;
-            this.nivelOrdenado = false;
-        },
-        ordenarNivel() {
-            if (!this.nivelOrdenado)
-                this.usuarios.sort((a, b) => a.nivel - b.nivel);
-            else
-                this.usuarios.sort((a, b) => b.nivel - a.nivel);
-            this.nivelOrdenado = !this.nivelOrdenado;
-            this.nomeOrdenado = false;
-            this.idOrdenado = false;
+                this.ordenado[campo] ?
+                    this.categorias.sort((a, b) => b[campo].localeCompare(a[campo])) :
+                    this.categorias.sort((a, b) => a[campo].localeCompare(b[campo]));
+            Object.keys(this.ordenado).forEach(c => {
+                if (c !== campo) this.ordenado[c] = false;
+            })
         }
     },
     mounted() {
-        this.carregarUsuarios();
+        this.carregarCategorias();
     }
 }
 </script>
@@ -259,24 +236,21 @@ form > div > .btn {
     justify-content: center;
 }
 
-.alterar {
+.acoes > .btn-warning {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--amarelo);
-    color: var(--preto);
     margin: 0 5px;
 }
 
-.excluir {
+.acoes > .btn-danger {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--vermelho);
     margin: 0 5px;
 }
 

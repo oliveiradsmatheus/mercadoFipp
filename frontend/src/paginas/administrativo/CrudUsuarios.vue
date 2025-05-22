@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import FormUsuario from "@/components/formularios/administrativo/FormUsuario.vue";
+import TabUsuario from "@/components/formularios/administrativo/TabUsuario.vue";
 
 export default {
     name: "CrudUsuarios",
-    components: {FormUsuario}
+    components: {FormUsuario: TabUsuario}
 }
 </script>
 
