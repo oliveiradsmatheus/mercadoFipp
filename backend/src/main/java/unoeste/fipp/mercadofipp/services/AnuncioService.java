@@ -37,6 +37,15 @@ public class AnuncioService {
         }
     }
 
+    public boolean addResposta(long id_anuncio, long id_pergunta, String texto) {
+        try {
+            anuncioRepository.addResposta(texto, id_anuncio, id_pergunta);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean addFoto(MultipartFile[] fotos, long id_anuncio) {
         try {
             for (MultipartFile foto : fotos) {

@@ -16,7 +16,7 @@
                             <router-link class="nav-link active" to="/">Home</router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <router-link class="nav-link active" to="/cadastros/anuncios">Anunciar</router-link>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

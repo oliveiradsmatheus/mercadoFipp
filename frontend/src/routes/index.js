@@ -7,6 +7,9 @@ import Usuarios from "@/paginas/Usuarios.vue";
 import Anuncio from "@/paginas/Anuncio.vue";
 import CadAnuncio from "@/paginas/CadAnuncio.vue";
 import Erro from "@/paginas/Erro.vue";
+import CriarConta from "@/paginas/CriarConta.vue";
+import FormPergunta from "@/components/formularios/FormPergunta.vue";
+import FormResposta from "@/components/formularios/FormResposta.vue";
 
 const routes = [
     {
@@ -28,6 +31,27 @@ const routes = [
         component: Login,
         meta: {
             title: "Entrar"
+        }
+    },
+    {
+        path: "/criar-conta",
+        component: CriarConta,
+        meta: {
+            title: "Cadastre-se no Mercado FIPP"
+        }
+    },
+    {
+        path: "/perguntar/:id",
+        component: FormPergunta,
+        meta: {
+            title: "Faça sua pergunta!"
+        }
+    },
+    {
+        path: "/responder/:idA/:idP/:per",
+        component: FormResposta,
+        meta: {
+            title: "Responda às perguntas do seu anúncio!"
         }
     },
     {

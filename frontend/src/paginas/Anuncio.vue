@@ -6,7 +6,7 @@
                 <Informacoes :anuncio="this.anuncio"/>
             </div>
             <div>
-                <Perguntas :perguntas="this.anuncio.perguntas"/>
+                <Perguntas :perguntas="this.anuncio.perguntas" :idAnuncio="this.anuncio.id"/>
             </div>
         </div>
         <div v-else>
@@ -47,6 +47,8 @@ export default {
             axios.get(url)
                 .then((resposta) => {
                     this.anuncio = resposta.data;
+                    if (this.anuncio)
+                        document.title += ` - ${this.anuncio.titulo}`;
                 })
                 .catch(erro => {
                     console.log(erro);
@@ -59,6 +61,17 @@ export default {
     },
     mounted() {
         this.carregarAnuncio();
+        if (localStorage.getItem('perguntaRealizada') === 'true') {
+            toast.success('Sua pergunta foi enviada! Aguarde a resposta do vendedor!', {
+                autoClose: 2000
+            });
+            localStorage.removeItem('perguntaRealizada')
+        } else if (localStorage.getItem('respostaRealizada') === 'true') {
+            toast.success('Sua resposta foi enviada! Aguarde o contato do comprador!', {
+                autoClose: 2000
+            });
+            localStorage.removeItem('respostaRealizada')
+        }
     }
 }
 </script>

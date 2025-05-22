@@ -13,10 +13,28 @@
                 <li v-for="pergunta in perguntas" class="list-group-item bg-body-tertiary">
                     <div class="fw-bold text-primary">Pergunta:</div>
                     <div class="mb-2">{{ pergunta.texto }}</div>
-                    <div class="ms-3">
+                    <div v-if="pergunta.resposta" class="ms-3">
                         <span class="fw-semibold text-success">Resposta do vendedor:</span><br>
                         <p>{{ pergunta.resposta }}</p>
                     </div>
+                    <div v-else>
+                        <div>
+                            <router-link class="text-decoration-none"
+                                         :to="`/responder/${idAnuncio}/${pergunta.id}/${pergunta.texto}`">
+                                <button class="btn btn-secondary m-2" type="button">Responder</button>
+                            </router-link>
+                        </div>
+                        <div>
+                            <span class="text-secondary text-truncate">O vendedor ainda não respondeu a pergunta.</span><br>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-body-tertiary">
+                    <router-link class="text-decoration-none" :to="`/perguntar/${idAnuncio}`">
+                        <button class="btn btn-secondary m-2" type="button">Faça uma pergunta!</button>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -27,7 +45,8 @@
 export default {
     name: "Perguntas",
     props: {
-        perguntas: Array
+        perguntas: Array,
+        idAnuncio: Number
     }
 }
 </script>

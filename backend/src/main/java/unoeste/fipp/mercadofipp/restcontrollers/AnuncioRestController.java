@@ -33,6 +33,13 @@ public class AnuncioRestController {
         return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar a pergunta!"));
     }
 
+    @GetMapping(value="add-resposta/{id_anu}/{id_per}/{resposta}")
+    public ResponseEntity<Object> addResposta(@PathVariable(name="id_anu") Long idAnuncio ,@PathVariable(name="id_per") Long idPergunta, @PathVariable(name="resposta") String resposta) {
+        if(anuncioService.addResposta(idAnuncio, idPergunta, resposta))
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar resposta!"));
+    }
+
     @PostMapping("add-foto/{id}")
     public ResponseEntity<Object> addFoto(@PathVariable(name = "id") Long idAnuncio, @RequestBody MultipartFile[] fotos) {
         if (anuncioService.addFoto(fotos, idAnuncio))

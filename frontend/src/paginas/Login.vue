@@ -1,32 +1,46 @@
 <template>
-    <div class="container mt-5">
+    <div class="container mt-5 w-50">
         <h1 class="mb-3">Entre</h1>
         <form class="p-3">
             <div class="mb-3 form-group">
                 <label for="usuario">Usuário</label>
-                <input type="email" class="form-control" id="usuario" placeholder="Informe o Usuário">
+                <input type="text" class="form-control" id="usuario" placeholder="Informe o Usuário">
             </div>
             <div class="mb-3 form-group">
                 <label for="senha">Senha</label>
                 <input type="password" class="form-control" id="senha" placeholder="Senha">
                 <small class="form-text text-muted">Nós nunca compartilhos os seus dados com ninguém.</small>
             </div>
-                <button type="submit" class="btn btn-primary mt-2 mx-3">Entrar</button>
-                <router-link class="text-decoration-none" to="/">
-                    <button class="btn btn-primary mt-2 mx-3" type="button">Voltar</button>
-                </router-link>
+            <button type="submit" class="btn btn-primary mt-2 mx-3">Entrar</button>
+            <router-link class="text-decoration-none" to="/">
+                <button class="btn btn-primary mt-2 mx-3" type="button">Voltar</button>
+            </router-link>
         </form>
+        <div class="text-center mt-3">
+            <p>
+                Não tem uma conta?
+                <router-link to="/criar-conta" class="btn-link">Crie sua conta aqui</router-link>
+            </p>
+        </div>
     </div>
 </template>
 
 <script>
+import {toast} from "vue3-toastify";
+
 export default {
-    name: "Login"
+    name: "Login",
+    mounted() {
+        if (localStorage.getItem('cadastroRealizado') === 'true') {
+            toast.success('Seu cadastro realizado com sucesso!', {
+                autoClose: 2000
+            });
+            localStorage.removeItem('cadastroRealizado')
+        }
+    }
 }
 </script>
 
 <style scoped>
-.container {
-    width: 50%;
-}
+
 </style>

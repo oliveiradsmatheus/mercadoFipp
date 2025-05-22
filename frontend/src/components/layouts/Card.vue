@@ -6,8 +6,8 @@
              :alt="anuncio.titulo">
         <img v-else src="../../assets/imagens/ine.jpg" class="card-img-top rounded" alt="Imagem indisponível"/>
         <div class="card-body mt-2">
-            <h5 class="card-title">{{ anuncio.titulo }}</h5>
-            <p class="card-text">{{ anuncio.descricao }}</p>
+            <h5 class="card-title text-truncate">{{ anuncio.titulo }}</h5>
+            <p class="card-text text-truncate">{{ anuncio.descricao }}</p>
         </div>
         <router-link class="text-decoration-none" :to="`/anuncio/${anuncio.id}`">
             <button class="btn btn-primary mb-3">

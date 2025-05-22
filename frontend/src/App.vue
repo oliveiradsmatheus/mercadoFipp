@@ -1,14 +1,17 @@
 <template>
     <Menu/>
     <router-view/>
+    <ToastifyContainer/>
 </template>
 
 <script>
 import Menu from "@/components/layouts/Menu.vue";
+import {ToastifyContainer} from "vue3-toastify";
 
 export default {
     name: 'App',
     components: {
+        ToastifyContainer,
         Menu
     }
 }
