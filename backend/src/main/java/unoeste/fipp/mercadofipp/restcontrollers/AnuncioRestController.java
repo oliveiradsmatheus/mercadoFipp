@@ -26,16 +26,32 @@ public class AnuncioRestController {
         return ResponseEntity.badRequest().body(new Erro("Anúncios não encontrados!"));
     }
 
-    @GetMapping(value = "add-pergunta/{id}/{texto}")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Object> getAnuncioId(@PathVariable(name = "id") Long id) {
+        Anuncio anuncio = anuncioService.getById(id);
+        if (anuncio != null)
+            return ResponseEntity.ok(anuncio);
+        return ResponseEntity.badRequest().body(new Erro("Anúncio não encontrado!"));
+    }
+
+    @GetMapping(value = "/get-por-usuario/{id}")
+    public ResponseEntity<Object> getAnuncioByUser(@PathVariable(name = "id") Long id) {
+        List<Anuncio> anuncios = anuncioService.getByUser(id);
+        if (anuncios != null)
+            return ResponseEntity.ok(anuncios);
+        return ResponseEntity.badRequest().body(new Erro("Anúncios não encontrados!"));
+    }
+
+    @PostMapping(value = "add-pergunta/{id}/{texto}")
     public ResponseEntity<Object> addPergunta(@PathVariable(name = "id") Long idAnuncio, @PathVariable(name = "texto") String texto) {
         if (anuncioService.addPergunta(idAnuncio, texto))
             return ResponseEntity.noContent().build();
         return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar a pergunta!"));
     }
 
-    @GetMapping(value="add-resposta/{id_anu}/{id_per}/{resposta}")
-    public ResponseEntity<Object> addResposta(@PathVariable(name="id_anu") Long idAnuncio ,@PathVariable(name="id_per") Long idPergunta, @PathVariable(name="resposta") String resposta) {
-        if(anuncioService.addResposta(idAnuncio, idPergunta, resposta))
+    @PostMapping(value="add-resposta/{id}/{resposta}")
+    public ResponseEntity<Object> addResposta(@PathVariable(name="id") Long id, @PathVariable(name="resposta") String resposta) {
+        if(anuncioService.addResposta(id, resposta))
             return ResponseEntity.noContent().build();
         return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar resposta!"));
     }
@@ -45,14 +61,6 @@ public class AnuncioRestController {
         if (anuncioService.addFoto(fotos, idAnuncio))
             return ResponseEntity.noContent().build();
         return ResponseEntity.badRequest().body(new Erro("Erro ao adicionar fotos!"));
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Object> getAnuncioId(@PathVariable(name = "id") Long id) {
-        Anuncio anuncio = anuncioService.getById(id);
-        if (anuncio != null)
-            return ResponseEntity.ok(anuncio);
-        return ResponseEntity.badRequest().body(new Erro("Anúncio não encontrado!"));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

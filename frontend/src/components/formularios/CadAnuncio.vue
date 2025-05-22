@@ -97,7 +97,7 @@ export default {
                     id: this.idCategoria
                 },
                 usuario: {
-                    id: 2
+                    id: 3
                 },
                 perguntas: []
             };

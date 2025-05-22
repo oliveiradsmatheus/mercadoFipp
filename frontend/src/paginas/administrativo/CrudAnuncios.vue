@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import FormCategoria from "@/components/formularios/FormCategoria.vue";
+import FormCategoria from "@/components/formularios/administrativo/FormCategoria.vue";
 
 export default {
     name: "Categorias",

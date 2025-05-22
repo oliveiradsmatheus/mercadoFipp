@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import FormUsuario from "@/components/formularios/FormUsuario.vue";
+import FormUsuario from "@/components/formularios/administrativo/FormUsuario.vue";
 
 export default {
     name: "Usuarios",

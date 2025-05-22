@@ -42,10 +42,10 @@ export default {
     },
     methods: {
         gravar() {
-            const url = `http://localhost:8080/apis/anuncio/add-resposta/${this.idAnuncio}/${this.idPergunta}/${this.resposta}`
+            const url = `http://localhost:8080/apis/anuncio/add-resposta/${this.idPergunta}/${this.resposta}`
 
             if (this.resposta.length > 0)
-                axios.get(url)
+                axios.post(url)
                     .then(resposta => {
                         console.log(resposta);
                         localStorage.setItem("respostaRealizada", "true");
@@ -57,7 +57,7 @@ export default {
                             autoClose: 2000
                         });
                         this.resetarFormulario();
-                    })
+                    });
         },
         resetarFormulario() {
             this.resposta = "";

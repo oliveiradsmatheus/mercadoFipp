@@ -25,10 +25,16 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <router-link class="dropdown-item" to="/cadastros/categorias">Categorias</router-link>
+                                    <router-link class="dropdown-item" to="/administrativo/anuncios">Anúncios
+                                    </router-link>
                                 </li>
                                 <li>
-                                    <router-link class="dropdown-item" to="/cadastros/usuarios">Usuários</router-link>
+                                    <router-link class="dropdown-item" to="/administrativo/categorias">Categorias
+                                    </router-link>
+                                </li>
+                                <li>
+                                    <router-link class="dropdown-item" to="/administrativo/usuarios">Usuários
+                                    </router-link>
                                 </li>
                             </ul>
                         </li>
@@ -52,7 +58,7 @@
                 </div>
                 <div v-else>
                     <router-link class="text-decoration-none" to="/">
-                    <button class="btn btn-danger d-flex" @click="this.sair()">Sair</button>
+                        <button class="btn btn-danger d-flex" @click="this.sair()">Sair</button>
                     </router-link>
                 </div>
             </div>

@@ -1,17 +1,16 @@
 <template>
-
     <div class="container mt-4">
-        <h1>Cadastro de Usuários</h1><br>
+        <h1>Cadastro de Categorias</h1><br>
         <div v-if="formOn">
             <form @submit.prevent="this.gravar()">
                 <div class="mb-3">
-                    <label for="idusr" class="form-label">ID</label>
-                    <input type="text" class="form-control" id="idusr" v-model="id" placeholder="Id do Usuário"
+                    <label for="idcat" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="idcat" v-model="id" placeholder="Id da Categoria"
                            disabled>
                 </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Nome do Usuário</label>
-                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome do Usuário">
+                    <label for="name" class="form-label">Nome da Categoria</label>
+                    <input type="text" class="form-control" id="name" v-model="nome" placeholder="Nome da Categoria">
                 </div>
                 <div class="botoes">
                     <div v-if="modoEdicao">
@@ -25,10 +24,10 @@
             </form>
         </div>
         <div class="botaoForm">
-            <button class="btn btn-primary" @click="mostrarForm(true)">Novo Usuário</button>
+            <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
         </div>
         <div class="mt-4">
-            <table class="table table-striped table-hover" id="usuarios">
+            <table class="table table-striped table-hover" id="categorias">
                 <thead>
                     <tr>
                         <th scope="col" @click="ordenarId()">Id</th>
@@ -37,15 +36,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="usuario in this.usuarios">
-                        <td>{{ usuario.id }}</td>
-                        <td>{{ usuario.nome }}</td>
+                    <tr v-for="cat in this.categorias">
+                        <td>{{ cat.id }}</td>
+                        <td>{{ cat.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.alterar(usuario)" class="btn alterar">
-                                <img src="../../assets/icones/acoes/editar.svg" alt="">
+                            <button @click="this.alterar(cat)" class="btn btn-warning">
+                                <img src="../../../assets/icones/acoes/editar.svg" alt="">
                             </button>
-                            <button @click="this.apagar(usuario.id)" class=" btn excluir">
-                                <img src="../../assets/icones/acoes/deletar.svg" alt="">
+                            <button @click="this.apagar(cat.id)" class=" btn btn-danger">
+                                <img src="../../../assets/icones/acoes/deletar.svg" alt="">
                             </button>
                         </td>
                     </tr>
@@ -64,7 +63,7 @@ import "vue3-toastify/dist/index.css"
 import axios from "axios";
 
 export default {
-    name: "FormUsuario",
+    name: 'FormAnuncio',
     data() {
         return {
             id: 0,
@@ -73,7 +72,7 @@ export default {
             modoEdicao: false,
             nomeOrdenado: false,
             idOrdenado: false,
-            usuarios: []
+            categorias: []
         }
     },
     methods: {
@@ -81,7 +80,7 @@ export default {
             this.formOn = flag;
         },
         gravar() {
-            const url = "http://localhost:8080/apis/usuario";
+            const url = 'http://localhost:8080/apis/categoria';
             if (this.modoEdicao) {
                 const data = {id: this.id, nome: this.nome};
 
@@ -90,7 +89,7 @@ export default {
                         .then(resposta => {
                             console.log(resposta);
                             this.carregarDados();
-                            toast.success("Usuário alterado com sucesso!", {
+                            toast.success("Categoria alterada com sucesso!", {
                                 autoClose: 2000
                             });
                             this.modoEdicao = false;
@@ -98,12 +97,12 @@ export default {
                         })
                         .catch(erro => {
                             console.log(erro);
-                            toast.error("Erro ao alterar usuário!", {
+                            toast.error("Erro ao alterar categoria!", {
                                 autoClose: 2000
                             })
                         })
                 else
-                    toast.warning("Insira um nome para o usuário!", {
+                    toast.warning("Insira um nome para a categoria!", {
                         autoClose: 2000
                     });
 
@@ -115,30 +114,30 @@ export default {
                         .then(resposta => {
                             console.log(resposta);
                             this.carregarDados();
-                            toast.success("Usuário gravado com sucesso!", {
+                            toast.success("Categoria gravada com sucesso!", {
                                 autoClose: 2000
                             });
                             this.limparForm();
                         })
                         .catch(erro => {
                             console.log(erro);
-                            toast.error("Erro ao gravar usuário!", {
+                            toast.error("Erro ao gravar categoria!", {
                                 autoClose: 2000
                             });
                         });
                 else
-                    toast.warning("Insira um nome para o usuário!", {
+                    toast.warning("Insira um nome para a categoria!", {
                         autoClose: 2000
                     });
             }
         },
         apagar(id) {
-            const url = `http://localhost:8080/apis/usuario/${id}`;
-            if (window.confirm("Deseja realmente deletar o usuário " + id + "?"))
+            const url = "http://localhost:8080/apis/categoria/" + id;
+            if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
                         console.log(resposta);
-                        toast.success("Usuário removido com sucesso!", {
+                        toast.success("Categoria removida com sucesso!", {
                             autoClose: 2000
                         });
                         this.carregarDados();
@@ -147,19 +146,19 @@ export default {
                         console.log(erro);
                         let er = erro + "";
                         if (er.endsWith("400"))
-                            toast.error("Erro ao remover usuário! O usuário possui anúncios ativos!", {
+                            toast.error("Erro ao remover categoria! Produtos cadastrados na categoria!", {
                                 autoClose: 2000
                             });
                         else
-                            toast.error("Erro ao remover usuário!", {
+                            toast.error("Erro ao remover categoria!", {
                                 autoClose: 2000
                             });
                     })
         },
-        alterar(usuario) {
+        alterar(cat) {
             this.mostrarForm(true);
-            this.id = usuario.id;
-            this.nome = usuario.nome;
+            this.id = cat.id;
+            this.nome = cat.nome;
             this.modoEdicao = true;
         },
         limparForm() {
@@ -169,33 +168,33 @@ export default {
             this.formOn = false;
         },
         carregarDados() {
-            const url = "http://localhost:8080/apis/usuario";
+            const url = "http://localhost:8080/apis/categoria";
 
             axios.get(url)
                 .then(resposta => {
                     console.log(resposta);
-                    this.usuarios = resposta.data;
+                    this.categorias = resposta.data;
                 })
                 .catch(erro => {
                     console.log(erro);
-                    toast.error("Erro ao carregar usuários!", {
+                    toast.error("Erro ao carregar categorias!", {
                         autoClose: 2000
                     });
                 });
         },
         ordenarNome() {
             if (!this.nomeOrdenado)
-                this.usuarios.sort((a, b) => a.nome.localeCompare(b.nome));
+                this.categorias.sort((a, b) => a.nome.localeCompare(b.nome));
             else
-                this.usuarios.sort((a, b) => b.nome.localeCompare(a.nome));
+                this.categorias.sort((a, b) => b.nome.localeCompare(a.nome));
             this.nomeOrdenado = !this.nomeOrdenado;
             this.idOrdenado = false;
         },
         ordenarId() {
             if (!this.idOrdenado)
-                this.usuarios.sort((a, b) => a.id - b.id);
+                this.categorias.sort((a, b) => a.id - b.id);
             else
-                this.usuarios.sort((a, b) => b.id - a.id);
+                this.categorias.sort((a, b) => b.id - a.id);
             this.idOrdenado = !this.idOrdenado;
             this.nomeOrdenado = false;
         }
@@ -234,24 +233,21 @@ form > div > .btn {
     justify-content: center;
 }
 
-.alterar {
+.acoes > .btn-warning {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--amarelo);
-    color: var(--preto);
     margin: 0 5px;
 }
 
-.excluir {
+.acoes > .btn-danger {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--vermelho);
     margin: 0 5px;
 }
 

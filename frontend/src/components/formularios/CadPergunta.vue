@@ -40,7 +40,7 @@ export default {
             const url = `http://localhost:8080/apis/anuncio/add-pergunta/${this.id}/${this.texto}`
 
             if (this.texto.length > 0)
-                axios.get(url)
+                axios.post(url)
                     .then(resposta => {
                         console.log(resposta);
                         localStorage.setItem("perguntaRealizada", "true");
@@ -52,7 +52,7 @@ export default {
                             autoClose: 2000
                         });
                         this.resetarFormulario();
-                    })
+                    });
         },
         resetarFormulario() {
             this.texto = "";

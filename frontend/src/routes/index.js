@@ -2,14 +2,15 @@ import {createRouter, createWebHistory} from "vue-router";
 import Home from "@/paginas/Home.vue"
 import Sobre from "@/paginas/Sobre.vue"
 import Login from "@/paginas/Login.vue";
-import Categorias from "@/paginas/Categorias.vue";
-import Usuarios from "@/paginas/Usuarios.vue";
+import CrudCategorias from "@/paginas/administrativo/CrudCategorias.vue";
+import CrudUsuarios from "@/paginas/administrativo/CrudUsuarios.vue";
 import Anuncio from "@/paginas/Anuncio.vue";
-import CadAnuncio from "@/paginas/CadAnuncio.vue";
+import CadAnuncio from "@/components/formularios/CadAnuncio.vue";
 import Erro from "@/paginas/Erro.vue";
 import CriarConta from "@/paginas/CriarConta.vue";
-import FormPergunta from "@/components/formularios/FormPergunta.vue";
-import FormResposta from "@/components/formularios/FormResposta.vue";
+import CadPergunta from "@/components/formularios/CadPergunta.vue";
+import CadResposta from "@/components/formularios/CadResposta.vue";
+import CrudAnuncios from "@/paginas/administrativo/CrudAnuncios.vue";
 
 const routes = [
     {
@@ -42,14 +43,14 @@ const routes = [
     },
     {
         path: "/perguntar/:id",
-        component: FormPergunta,
+        component: CadPergunta,
         meta: {
             title: "Faça sua pergunta!"
         }
     },
     {
         path: "/responder/:idA/:idP/:per",
-        component: FormResposta,
+        component: CadResposta,
         meta: {
             title: "Responda às perguntas do seu anúncio!"
         }
@@ -62,17 +63,24 @@ const routes = [
         }
     },
     {
-        path: "/cadastros/categorias",
-        component: Categorias,
+        path: "/administrativo/anuncios",
+        component: CrudAnuncios,
         meta: {
-            title: "Cadastro de categorias"
+            title: "Painel administrativo - Anúncios"
         }
     },
     {
-        path: "/cadastros/usuarios",
-        component: Usuarios,
+        path: "/administrativo/categorias",
+        component: CrudCategorias,
         meta: {
-            title: "Cadastro de usuários"
+            title: "Painel administrativo - Categorias"
+        }
+    },
+    {
+        path: "/administrativo/usuarios",
+        component: CrudUsuarios,
+        meta: {
+            title: "Painel administrativo - Usuários"
         }
     },
     {
