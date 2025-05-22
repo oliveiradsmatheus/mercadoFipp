@@ -81,7 +81,7 @@
                         <th scope="col" @click="ordenarId()">Id</th>
                         <th scope="col" @click="ordenarTitulo()">Título</th>
                         <th scope="col" @click="ordenarTitulo()">Descrição</th>
-                        <th scope="col" @click="ordenarTitulo()">Preço</th>
+                        <th scope="col" @click="ordenarTitulo()">Preço R$</th>
                         <th scope="col" @click="ordenarTitulo()">Categoria</th>
                         <th scope="col" @click="ordenarTitulo()">Usuário</th>
                         <th scope="col" colspan="2">Ações</th>
@@ -92,7 +92,7 @@
                         <td>{{ anuncio.id }}</td>
                         <td>{{ anuncio.titulo }}</td>
                         <td>{{ anuncio.descricao }}</td>
-                        <td>{{ anuncio.preco }}</td>
+                        <td>{{ anuncio.preco.toFixed(2) }}</td>
                         <td>{{ anuncio.categoria.nome }}</td>
                         <td>{{ anuncio.usuario.nome }}</td>
                         <td>
@@ -148,7 +148,7 @@ export default {
                     axios.put(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarAnuncios();
                             toast.success("Categoria alterada com sucesso!", {
                                 autoClose: 2000
                             });
@@ -173,7 +173,7 @@ export default {
                     axios.post(url, data)
                         .then(resposta => {
                             console.log(resposta);
-                            this.carregarDados();
+                            this.carregarAnuncios();
                             toast.success("Categoria gravada com sucesso!", {
                                 autoClose: 2000
                             });
@@ -192,27 +192,18 @@ export default {
             }
         },
         apagar(id) {
-            const url = "http://localhost:8080/apis/categoria/" + id;
-            if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
+            const url = "http://localhost:8080/apis/anuncio/" + id;
+            if (window.confirm("Deseja realmente deletar o anúncio " + id + "?"))
                 axios.delete(url)
                     .then(resposta => {
                         console.log(resposta);
-                        toast.success("Categoria removida com sucesso!", {
+                        toast.success("Anúncio removido com sucesso!", {
                             autoClose: 2000
                         });
-                        this.carregarDados();
+                        this.carregarAnuncios();
                     })
                     .catch(erro => {
                         console.log(erro);
-                        let er = erro + "";
-                        if (er.endsWith("400"))
-                            toast.error("Erro ao remover categoria! Produtos cadastrados na categoria!", {
-                                autoClose: 2000
-                            });
-                        else
-                            toast.error("Erro ao remover categoria!", {
-                                autoClose: 2000
-                            });
                     })
         },
         alterar(cat) {

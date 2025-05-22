@@ -12,7 +12,7 @@
             <ul v-else class="list-group list-group-flush">
                 <li v-for="pergunta in perguntas" class="list-group-item bg-body-tertiary">
                     <div class="fw-bold text-primary">Pergunta:</div>
-                    <div class="mb-2">{{ pergunta.texto }}</div>
+                    <div class="mb-2">{{ pergunta.texto }}?</div>
                     <div v-if="pergunta.resposta" class="ms-3">
                         <span class="fw-semibold text-success">Resposta do vendedor:</span><br>
                         <p>{{ pergunta.resposta }}</p>

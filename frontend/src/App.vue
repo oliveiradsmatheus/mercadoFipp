@@ -2,15 +2,18 @@
     <Menu/>
     <router-view/>
     <ToastifyContainer/>
+    <Rodape/>
 </template>
 
 <script>
 import Menu from "@/components/layouts/Menu.vue";
 import {ToastifyContainer} from "vue3-toastify";
+import Rodape from "@/components/layouts/Rodape.vue";
 
 export default {
     name: 'App',
     components: {
+        Rodape,
         ToastifyContainer,
         Menu
     }

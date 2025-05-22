@@ -6,7 +6,7 @@
                 <strong>Pergunta do comprador</strong>
             </div>
             <div class="card-body">
-                <p class="mb-3"><strong class="text-primary">Comprador:</strong> {{ texto }}</p>
+                <p class="mb-3"><strong class="text-primary">Comprador:</strong> {{ texto }}?</p>
                 <form @submit.prevent="this.gravar()">
                     <div class="mb-3">
                         <label for="resposta" class="form-label">Sua resposta:</label>
