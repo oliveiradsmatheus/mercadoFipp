@@ -44,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="categoria in this.categorias">
+                    <tr v-for="categoria in this.categorias" :key="categoria.id">
                         <td>{{ categoria.id }}</td>
                         <td>{{ categoria.nome }}</td>
                         <td class="acoes">
