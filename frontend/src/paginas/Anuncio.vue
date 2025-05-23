@@ -14,9 +14,10 @@
                 Erro ao carregar anúncio!
             </div>
         </div>
-        <router-link class="text-decoration-none" to="/">
+        <router-link class="text-decoration-none" :to="logado ? '/anuncios' : '/'">
             <button class="btn btn-secondary mb-2" type="button">Voltar</button>
         </router-link>
+
     </div>
 </template>
 
@@ -37,7 +38,8 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
-            anuncio: null
+            anuncio: null,
+            logado: true
         }
     },
     methods: {

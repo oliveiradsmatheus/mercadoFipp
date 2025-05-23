@@ -37,10 +37,13 @@ export default {
     },
     methods: {
         gravar() {
-            const url = `http://localhost:8080/apis/anuncio/add-pergunta/${this.id}/${this.texto}`
+            const url = `http://localhost:8080/apis/anuncio/add-pergunta/${this.id}`;
+            const data =  {
+                pergunta: this.texto
+            }
 
             if (this.texto.length > 0)
-                axios.post(url)
+                axios.post(url, data)
                     .then(resposta => {
                         console.log(resposta);
                         localStorage.setItem("perguntaRealizada", "true");

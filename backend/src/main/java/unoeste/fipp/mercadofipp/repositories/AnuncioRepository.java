@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import unoeste.fipp.mercadofipp.entities.Anuncio;
 
+import java.util.List;
+
 public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
     @Modifying
     @Transactional
@@ -46,4 +48,13 @@ public interface AnuncioRepository extends JpaRepository<Anuncio, Long> {
     public void delPergunta(
             @Param("id_anuncio") Long id_anuncio
     );
+
+    @Query(value = "SELECT a.* FROM anuncio a " +
+            "JOIN categoria c ON a.cat_id = c.cat_id " +
+            "WHERE a.anu_title ILIKE :filtro " +
+            "OR CAST(a.anu_date AS TEXT) ILIKE :filtro " +
+            "OR a.anu_desc ILIKE :filtro " +
+            "OR CAST(a.anu_price AS TEXT) ILIKE :filtro " +
+            "OR c.cat_name ILIKE :filtro", nativeQuery = true)
+    List<Anuncio> findByFilter(@Param("filtro") String filtro);
 }

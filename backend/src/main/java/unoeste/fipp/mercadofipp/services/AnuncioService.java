@@ -31,6 +31,10 @@ public class AnuncioService {
         return anunciosByUser;
     }
 
+    public List<Anuncio> getByFilter(String filtro) {
+        return anuncioRepository.findByFilter(filtro);
+    }
+
     public Anuncio save(Anuncio anuncio, MultipartFile[] fotos) {
         Anuncio novoAnuncio = anuncioRepository.save(anuncio);
         if (novoAnuncio != null)

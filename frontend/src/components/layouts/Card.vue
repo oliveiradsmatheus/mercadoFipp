@@ -11,6 +11,7 @@
                 {{ anuncio.descricao.substring(0, 100) }}...
             </p>
             <div class="botao mt-auto">
+                <small class="form-text text-muted"> {{ anuncio.categoria.nome}}</small>
                 <p class="text-success fw-bold">R$ {{ anuncio.preco.toFixed(2) }}</p>
                 <router-link :to="`/anuncio/${anuncio.id}`">
                     <button class="btn btn-outline-warning w-100">Ver mais</button>

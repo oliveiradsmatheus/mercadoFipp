@@ -4,7 +4,6 @@
             <h1 class="display-4 fw-bold">Anúncios Recentes</h1>
             <p class="text-muted">Veja os anúncios mais recentes da nossa plataforma</p>
         </div>
-
         <div class="position-relative">
             <button
                 @click="moverCarrossel('left')"

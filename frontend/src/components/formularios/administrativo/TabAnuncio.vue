@@ -52,12 +52,10 @@ export default {
             categorias: [],
             usuarios: [],
             ordenado: {
-                id: false,
                 titulo: false,
                 descricao: false,
                 preco: false,
-                'categoria.nome': false,
-                'usuario.nome': false
+                'categoria.nome': false
             }
         }
     },

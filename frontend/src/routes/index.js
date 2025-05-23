@@ -45,6 +45,14 @@ const routes = [
         }
     },
     {
+        path: "/anuncios/filtro/:filtro",
+        component: Anuncios,
+        props: true,
+        meta: {
+            title: "Todos os anúncios"
+        }
+    },
+    {
         path: "/integrantes",
         component: Integrantes,
         meta: {
