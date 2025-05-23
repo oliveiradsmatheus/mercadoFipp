@@ -2,6 +2,9 @@
     <div class="container mt-4">
         <h1>Gerenciamento de Usuários</h1>
         <div class="mt-5">
+            <router-link class="text-decoration-none" to="/">
+                <button class="btn btn-secondary my-1 mb-3 d-flex justify-content-start" type="button">Voltar</button>
+            </router-link>
             <table class="table table-striped table-hover" id="usuarios">
                 <thead>
                     <tr>
@@ -17,7 +20,7 @@
                         <td>{{ usuario.nivel }}</td>
                         <td>{{ usuario.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.apagar(usuario.id)" class=" btn excluir">
+                            <button @click="this.apagar(usuario.id)" class="btn btn-danger excluir">
                                 <img src="../../../assets/icones/acoes/deletar.svg" alt="">
                             </button>
                         </td>
@@ -25,9 +28,6 @@
                 </tbody>
             </table>
         </div>
-        <router-link class="text-decoration-none" to="/">
-            <button class="btn btn-primary m-4 mb-2" type="button">Voltar</button>
-        </router-link>
     </div>
 </template>
 
@@ -119,14 +119,6 @@ form > div > .btn {
     margin-left: 10px;
 }
 
-.botoes {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-}
-
 .botaoForm {
     display: flex;
     justify-content: flex-end;
@@ -137,24 +129,12 @@ form > div > .btn {
     justify-content: center;
 }
 
-.alterar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: var(--amarelo);
-    color: var(--preto);
-    margin: 0 5px;
-}
-
 .excluir {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--vermelho);
     margin: 0 5px;
 }
 

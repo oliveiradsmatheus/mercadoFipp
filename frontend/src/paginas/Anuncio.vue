@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4 h-100 w-100">
+    <div class="container my-4 h-100 w-100 mb-5">
         <div v-if="this.anuncio !== null">
             <div class="row mt-3">
                 <Carrossel :fotos="this.anuncio.fotos"/>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <router-link class="text-decoration-none" to="/">
-            <button class="btn btn-primary mb-2" type="button">Voltar</button>
+            <button class="btn btn-secondary mb-2" type="button">Voltar</button>
         </router-link>
     </div>
 </template>

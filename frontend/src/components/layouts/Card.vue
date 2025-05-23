@@ -1,19 +1,22 @@
 <template>
-    <div class="card m-3 p-2 shadow" style="width: 23rem;">
-        <img v-if="anuncio.fotos && anuncio.fotos.length > 0"
-             :src="anuncio.fotos[0].img64"
-             class="card-img-top rounded"
-             :alt="anuncio.titulo">
-        <img v-else src="../../assets/imagens/ine.jpg" class="card-img-top rounded" alt="Imagem indisponível"/>
-        <div class="card-body mt-2">
+    <div class="card h-100 d-flex flex-column" style="height: 420px;">
+        <img
+            :src="anuncio.fotos[0]?.img64 || 'https://via.placeholder.com/300x200?text=Sem+Imagem'"
+            class="card-img-top imagem-fixa"
+            alt="Imagem do anúncio"
+        />
+        <div class="card-body d-flex flex-column">
             <h5 class="card-title text-truncate">{{ anuncio.titulo }}</h5>
-            <p class="card-text text-truncate">{{ anuncio.descricao }}</p>
+            <p class="card-text text-muted small">
+                {{ anuncio.descricao.substring(0, 100) }}...
+            </p>
+            <div class="botao mt-auto">
+                <p class="text-success fw-bold">R$ {{ anuncio.preco.toFixed(2) }}</p>
+                <router-link :to="`/anuncio/${anuncio.id}`">
+                    <button class="btn btn-outline-warning w-100">Ver mais</button>
+                </router-link>
+            </div>
         </div>
-        <router-link class="text-decoration-none" :to="`/anuncio/${anuncio.id}`">
-            <button class="btn btn-primary mb-3">
-                Mais detalhes
-            </button>
-        </router-link>
     </div>
 </template>
 
@@ -27,11 +30,20 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    height: 520px;
+.imagem-fixa {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }
 
-.card-img-top {
-    height: 300px;
+button {
+    color: var(--preto);
+}
+
+.card {
+    background-color: var(--branco);
 }
 </style>

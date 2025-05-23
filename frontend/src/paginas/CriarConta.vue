@@ -16,7 +16,7 @@
                 <input type="password" class="form-control" id="confirmarSenha" v-model="confirmarSenha"
                        placeholder="Confirmar Senha" required>
             </div>
-            <button type="submit" class="btn btn-primary mt-2 mx-3">Criar Conta</button>
+            <button type="submit" class="btn btn-warning mt-2 mx-3">Criar Conta</button>
             <router-link class="text-decoration-none" to="/">
                 <button class="btn btn-secondary mt-2 mx-3" type="button">Voltar</button>
             </router-link>

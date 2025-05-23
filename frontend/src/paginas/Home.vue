@@ -1,10 +1,39 @@
 <template>
-    <div class="container w-100 mt-4">
-        <h1>Anúncios recentes</h1>
-        <div class="d-flex justify-content-around flex-wrap">
-            <div v-for="anuncio in anuncios">
-                <Card :anuncio="anuncio"/>
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="display-4 fw-bold">Anúncios Recentes</h1>
+            <p class="text-muted">Veja os anúncios mais recentes da nossa plataforma</p>
+        </div>
+
+        <div class="position-relative">
+            <button
+                @click="moverCarrossel('left')"
+                class="btn btn-outline-warning position-absolute top-50 start-0 translate-middle-y"
+                style="z-index: 2"
+            >
+                ‹
+            </button>
+            <div
+                ref="carousel"
+                class="d-flex overflow-auto gap-4 px-5 scroll-snap-x"
+                style="scroll-behavior: smooth"
+            >
+                <div
+                    v-for="anuncio in anuncios"
+                    :key="anuncio.id"
+                    class="card flex-shrink-0 shadow-sm border-0"
+                    style="min-width: 352px; max-width: 352px"
+                >
+                    <Card :anuncio="anuncio"/>
+                </div>
             </div>
+            <button
+                @click="moverCarrossel('right')"
+                class="btn btn-outline-warning position-absolute top-50 end-0 translate-middle-y"
+                style="z-index: 2"
+            >
+                ›
+            </button>
         </div>
     </div>
 </template>
@@ -39,6 +68,16 @@ export default {
                         autoClose: 2000
                     });
                 });
+        },
+        moverCarrossel(direction) {
+            const container = this.$refs.carousel;
+            const scrollAmount = 376;
+
+            if (direction === 'left')
+                container.scrollBy({left: -scrollAmount, behavior: 'smooth'});
+            else
+                container.scrollBy({left: scrollAmount, behavior: 'smooth'});
+
         }
     },
     mounted() {
@@ -48,23 +87,21 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    background-color: var(--branco);
+.scroll-snap-x::-webkit-scrollbar {
+    display: none;
 }
 
-p, h5 {
-    color: var(--preto);
+.btn-carousel-left {
+    left: -40px; /* tira o botão para fora à esquerda */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
 }
 
-button {
-    color: var(--preto);
-}
-
-.carousel-caption {
-    border-radius: 10px;
-    background: linear-gradient(
-        rgba(242, 242, 242, 0.8),
-        rgba(242, 242, 242, 0.55)
-    );
+.btn-carousel-right {
+    right: -40px; /* tira o botão para fora à direita */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
 }
 </style>

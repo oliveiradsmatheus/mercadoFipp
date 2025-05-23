@@ -2,7 +2,7 @@
     <div class="container mt-4 p-3 w-50">
         <h2>Faça uma pergunta ao vendedor</h2>
         <div class="card bg-body-tertiary mt-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <strong>Pergunte ao vendedor!</strong>
             </div>
         <div class="card-body">
@@ -11,9 +11,9 @@
                     <textarea class="form-control" id="pergunta" v-model="texto" rows="7"
                               placeholder="Este item ainda está disponível?" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary mx-2">Enviar pergunta</button>
+                <button type="submit" class="btn btn-warning mx-2">Enviar pergunta</button>
                 <router-link class="text-decoration-none" :to="`/anuncio/${this.id}`">
-                    <button class="btn btn-primary mx-2">
+                    <button class="btn btn-secondary mx-2">
                         Voltar
                     </button>
                 </router-link>

@@ -16,18 +16,23 @@
                     </div>
                     <div class="botoes">
                         <div v-if="modoEdicao">
-                            <input class="btn btn-primary" type="submit" value="Alterar">
+                            <input class="btn btn-warning" type="submit" value="Alterar">
                         </div>
                         <div v-else>
-                            <input class="btn btn-primary" type="submit" value="Cadastrar">
+                            <input class="btn btn-warning" type="submit" value="Cadastrar">
                         </div>
                         <button class="btn btn-danger" type="button" @click="limparForm">Cancelar</button>
                     </div>
                 </form>
             </div>
         </div>
-        <div class="botaoForm">
-            <button class="btn btn-primary" @click="mostrarForm(true)">Nova Categoria</button>
+        <div class="d-flex justify-content-between my-4 mb-2">
+            <router-link class="text-decoration-none" to="/">
+                <button class="btn btn-secondary" type="button">Voltar</button>
+            </router-link>
+            <div class="botaoForm">
+                <button class="btn btn-warning" @click="mostrarForm(true)">Nova Categoria</button>
+            </div>
         </div>
         <div class="mt-4">
             <table class="table table-striped table-hover" id="categorias">
@@ -43,7 +48,7 @@
                         <td>{{ categoria.id }}</td>
                         <td>{{ categoria.nome }}</td>
                         <td class="acoes">
-                            <button @click="this.alterar(categoria)" class="btn btn-warning">
+                            <button @click="this.alterar(categoria)" class="btn btn-secondary">
                                 <img src="../../../assets/icones/acoes/editar.svg" alt="">
                             </button>
                             <button @click="this.apagar(categoria.id)" class=" btn btn-danger">
@@ -54,9 +59,6 @@
                 </tbody>
             </table>
         </div>
-        <router-link class="text-decoration-none" to="/">
-            <button class="btn btn-primary m-4 mb-2" type="button">Voltar</button>
-        </router-link>
     </div>
 </template>
 
@@ -236,7 +238,7 @@ form > div > .btn {
     justify-content: center;
 }
 
-.acoes > .btn-warning {
+.acoes > .btn-secondary {
     display: flex;
     align-items: center;
     justify-content: center;

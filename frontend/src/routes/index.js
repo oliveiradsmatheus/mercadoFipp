@@ -11,6 +11,8 @@ import CriarConta from "@/paginas/CriarConta.vue";
 import CadPergunta from "@/components/formularios/CadPergunta.vue";
 import CadResposta from "@/components/formularios/CadResposta.vue";
 import CrudAnuncios from "@/paginas/administrativo/CrudAnuncios.vue";
+import Integrantes from "@/paginas/Integrantes.vue";
+import Anuncios from "@/paginas/Anuncios.vue";
 
 const routes = [
     {
@@ -25,6 +27,28 @@ const routes = [
         component: Sobre,
         meta: {
             title: "Sobre"
+        }
+    },
+    {
+        path: "/anuncios",
+        component: Anuncios,
+        meta: {
+            title: "Todos os anúncios"
+        }
+    },
+    {
+        path: "/anuncios/usuario/:idUsr",
+        component: Anuncios,
+        props: true,
+        meta: {
+            title: "Todos os anúncios"
+        }
+    },
+    {
+        path: "/integrantes",
+        component: Integrantes,
+        meta: {
+            title: "Integrantes"
         }
     },
     {

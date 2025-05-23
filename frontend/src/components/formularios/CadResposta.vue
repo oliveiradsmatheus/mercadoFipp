@@ -2,20 +2,20 @@
     <div class="container mt-4 p-3 w-50">
         <h2>Responda à pergunta</h2>
         <div class="card bg-body-tertiary mt-4">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <strong>Pergunta do comprador</strong>
             </div>
             <div class="card-body">
-                <p class="mb-3"><strong class="text-primary">Comprador:</strong> {{ texto }}?</p>
+                <p class="mb-3"><strong class="text-dark">Comprador:</strong> {{ texto }}?</p>
                 <form @submit.prevent="this.gravar()">
                     <div class="mb-3">
                         <label for="resposta" class="form-label">Sua resposta:</label>
                         <textarea class="form-control" id="resposta" rows="7" v-model="resposta"
                                   placeholder="Digite sua resposta para o comprador..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary mx-2">Enviar Resposta</button>
+                    <button type="submit" class="btn btn-warning mx-2">Enviar Resposta</button>
                     <router-link class="text-decoration-none" :to="`/anuncio/${this.idAnuncio}`">
-                        <button class="btn btn-primary mx-2">
+                        <button class="btn btn-secondary mx-2">
                             Voltar
                         </button>
                     </router-link>

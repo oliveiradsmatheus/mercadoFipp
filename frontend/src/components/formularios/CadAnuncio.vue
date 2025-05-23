@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-4 p-4">
         <div class="card shadow">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <h4 class="mb-0">Cadastrar Anúncio</h4>
             </div>
             <div class="card-body bg-body-tertiary">
@@ -41,8 +41,11 @@
                                @change="this.adicionarArquivos"/>
                         <div class="form-text">Você pode adicionar até 3 imagens.</div>
                     </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Cadastrar Anúncio</button>
+                    <div>
+                        <button type="submit" class="btn btn-warning mx-2">Cadastrar Anúncio</button>
+                        <router-link to="/anuncios">
+                            <button type="submit" class="btn btn-danger mx-2">Cancelar</button>
+                        </router-link>
                     </div>
                 </form>
             </div>

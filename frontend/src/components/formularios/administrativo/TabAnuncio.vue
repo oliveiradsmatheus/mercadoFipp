@@ -2,6 +2,9 @@
     <div class="container mt-4">
         <h1>Gerenciamento de Anúncios</h1>
         <div class="mt-5">
+            <router-link class="text-decoration-none" to="/">
+                <button class="btn btn-secondary my-1 mb-3 d-flex justify-content-start" type="button">Voltar</button>
+            </router-link>
             <table class="table table-striped table-hover" id="categorias">
                 <thead>
                     <tr>
@@ -33,9 +36,6 @@
                 </tbody>
             </table>
         </div>
-        <router-link class="text-decoration-none" to="/">
-            <button class="btn btn-primary m-4 mb-2" type="button">Voltar</button>
-        </router-link>
     </div>
 </template>
 

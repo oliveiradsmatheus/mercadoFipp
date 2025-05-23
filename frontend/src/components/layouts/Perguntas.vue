@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-5">
         <div class="card shadow">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <h4 class="mb-0">Perguntas e Respostas</h4>
             </div>
             <ul v-if="perguntas.length===0" class="list-group list-group-flush">
@@ -11,7 +11,7 @@
             </ul>
             <ul v-else class="list-group list-group-flush">
                 <li v-for="pergunta in perguntas" class="list-group-item bg-body-tertiary">
-                    <div class="fw-bold text-primary">Pergunta:</div>
+                    <div class="fw-bold text-dark">Pergunta:</div>
                     <div class="mb-2">{{ pergunta.texto }}?</div>
                     <div v-if="pergunta.resposta" class="ms-3">
                         <span class="fw-semibold text-success">Resposta do vendedor:</span><br>
@@ -33,7 +33,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item bg-body-tertiary">
                     <router-link class="text-decoration-none" :to="`/perguntar/${idAnuncio}`">
-                        <button class="btn btn-secondary m-2" type="button">Faça uma pergunta!</button>
+                        <button class="btn btn-warning mb-2" type="button">Faça uma pergunta!</button>
                     </router-link>
                 </li>
             </ul>
