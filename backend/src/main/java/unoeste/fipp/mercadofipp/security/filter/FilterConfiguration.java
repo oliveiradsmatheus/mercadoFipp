@@ -22,4 +22,13 @@ public class FilterConfiguration {
         bean.setOrder(0);
         return bean;
     }
+
+    @Bean
+    public FilterRegistrationBean<AccessFilter> registrationBean(){
+        FilterRegistrationBean<AccessFilter> register = new FilterRegistrationBean<>();
+        register.setFilter(new AccessFilter());
+        register.addUrlPatterns("/apis/*");
+        register.setOrder(1);
+        return register;
+    }
 }

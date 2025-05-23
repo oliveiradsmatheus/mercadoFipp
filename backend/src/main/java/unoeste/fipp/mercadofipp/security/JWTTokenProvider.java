@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,8 +18,9 @@ public class JWTTokenProvider {
                 .setSubject("usuario")
                 .setIssuer("localhost:8080")
                 .claim("nivel", nivel)
+                .claim("usuario", usuario)
                 .setIssuedAt(new Date())
-                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(15L)
+                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(20L)
                         .atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(CHAVE)
                 .compact();
@@ -30,7 +30,7 @@ public class JWTTokenProvider {
     static public boolean verifyToken(String token) {
         try {
             Claims claims = getAllClaimsFromToken(token);
-            if(Integer.parseInt(claims.get("nivel").toString()) == 3){
+            if(Integer.parseInt(claims.get("nivel").toString()) == 2){
                 //se entrou nesse if quer dizer que ele tem nível de guest
                 // ou seja, não pode visualizar a tabela
                 return false;
