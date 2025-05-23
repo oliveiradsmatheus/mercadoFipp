@@ -13,7 +13,7 @@
             <div class="botao mt-auto">
                 <small class="form-text text-muted"> {{ anuncio.categoria.nome}}</small>
                 <p class="text-success fw-bold">R$ {{ anuncio.preco.toFixed(2) }}</p>
-                <router-link :to="`/anuncio/${anuncio.id}`">
+                <router-link v-if="this.usuario.nivel < 2" :to="`/anuncio/${anuncio.id}`">
                     <button class="btn btn-outline-warning w-100">Ver mais</button>
                 </router-link>
             </div>
@@ -26,6 +26,13 @@ export default {
     name: "Card",
     props: {
         anuncio: Object
+    },
+    data() {
+        return {
+            usuario: {
+                nivel: 1
+            }
+        }
     }
 }
 </script>

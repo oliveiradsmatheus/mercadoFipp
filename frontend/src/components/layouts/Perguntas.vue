@@ -18,7 +18,7 @@
                         <p>{{ pergunta.resposta }}</p>
                     </div>
                     <div v-else>
-                        <div>
+                        <div v-if="vendedor === this.usuario.id">
                             <router-link class="text-decoration-none"
                                          :to="`/responder/${idAnuncio}/${pergunta.id}/${pergunta.texto}`">
                                 <button class="btn btn-secondary m-2" type="button">Responder</button>
@@ -30,7 +30,7 @@
                     </div>
                 </li>
             </ul>
-            <ul class="list-group list-group-flush">
+            <ul v-if="this.usuario.id !== vendedor" class="list-group list-group-flush">
                 <li class="list-group-item bg-body-tertiary">
                     <router-link class="text-decoration-none" :to="`/perguntar/${idAnuncio}`">
                         <button class="btn btn-warning mb-2" type="button">Faça uma pergunta!</button>
@@ -46,7 +46,16 @@ export default {
     name: "Perguntas",
     props: {
         perguntas: Array,
-        idAnuncio: Number
+        idAnuncio: Number,
+        vendedor: Number
+    },
+    data() {
+        return {
+            usuario: {
+                id: 2,
+                nivel: 1
+            }
+        }
     }
 }
 </script>

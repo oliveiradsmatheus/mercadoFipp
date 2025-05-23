@@ -6,7 +6,7 @@
                 <Informacoes :anuncio="this.anuncio"/>
             </div>
             <div>
-                <Perguntas :perguntas="this.anuncio.perguntas" :idAnuncio="this.anuncio.id"/>
+                <Perguntas :vendedor="this.anuncio.usuario.id" :perguntas="this.anuncio.perguntas" :idAnuncio="this.anuncio.id"/>
             </div>
         </div>
         <div v-else>
