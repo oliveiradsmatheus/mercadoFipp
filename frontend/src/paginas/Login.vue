@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5 w-50">
+    <div class="container mt-5 justify- w-50">
         <h1 class="mb-3">Entre</h1>
         <form class="p-3">
             <div class="mb-3 form-group">
@@ -35,12 +35,12 @@ export default {
             toast.success('Seu cadastro realizado com sucesso!', {
                 autoClose: 2000
             });
-            localStorage.removeItem('cadastroRealizado')
+            localStorage.removeItem('cadastroRealizado');
         }
+        document.body.style.overflow = 'hidden';
     }
 }
 </script>
 
 <style scoped>
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <Menu/>
+    <Menu v-if="this.$route.path !== '/login' && this.$route.path !== '/criar-conta'"/>
     <div class="pagina">
         <router-view/>
         <ToastifyContainer/>
