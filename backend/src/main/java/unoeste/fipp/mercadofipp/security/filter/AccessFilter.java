@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import unoeste.fipp.mercadofipp.security.JWTTokenProvider;
+
 import java.io.IOException;
 
 public class AccessFilter implements Filter {
@@ -17,20 +18,17 @@ public class AccessFilter implements Filter {
         String method = req.getMethod();
         String path = req.getRequestURI();
 
-        if (method.equals("POST") && path.contains("/apis/usuario")) {
+        if (method.equals("POST") && path.contains("/apis/usuario") || method.equals("GET") && path.contains("/apis/usuario/get-nomes")) {
             // Permitir acesso público a POST /apis/usuario (cadastro de usuário)
             chain.doFilter(request, response);
-        }
-        else if (method.equals("GET") && path.startsWith("/apis/anuncio")){
+        } else if (method.equals("GET") && path.startsWith("/apis/anuncio")) {
             // Permitir GET público para /apis/anuncio/**
             chain.doFilter(request, response);
-        }
-        else if (token == null){
+        } else if (token == null) {
             // Para os demais casos, precisa de token
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             res.getWriter().write("Não autorizado: token não encontrado");
-        }
-        else if (!JWTTokenProvider.verifyToken(token)){
+        } else if (!JWTTokenProvider.verifyToken(token)) {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             res.getWriter().write("Não autorizado: token inválido");
         } else {
@@ -52,8 +50,7 @@ public class AccessFilter implements Filter {
                     } else {
                         forbidden(res);
                     }
-                }
-                else if (method.equals("POST") || method.equals("PUT") || method.equals("DELETE")) {
+                } else if (method.equals("POST") || method.equals("PUT") || method.equals("DELETE")) {
                     // só adm pode POST, PUT, DELETE em categoria
                     if (nivel == 0) {
                         chain.doFilter(request, response);
@@ -63,7 +60,7 @@ public class AccessFilter implements Filter {
                 }
             }
             // TRATAR O USUÁRIO
-            else if (path.contains("/apis/usuario")){
+            else if (path.contains("/apis/usuario")) {
                 // TRATAMENTO PARA O USUÁRIO
                 if (method.equals("GET")) {
                     // GET usuário (qualquer GET com /apis/user/**) - adm e usuário comum
@@ -72,20 +69,17 @@ public class AccessFilter implements Filter {
                     } else {
                         forbidden(res);
                     }
-                }
-                else if (method.equals("DELETE")) {
+                } else if (method.equals("DELETE")) {
                     // só adm pode deletar usuário
                     if (nivel == 0) {
                         chain.doFilter(request, response);
                     } else {
                         forbidden(res);
                     }
-                }
-                else if (method.equals("POST")) {
+                } else if (method.equals("POST")) {
                     // POST usuário - liberado só para público (já tratado acima)
                     forbidden(res);
-                }
-                else if (method.equals("PUT")) {
+                } else if (method.equals("PUT")) {
                     // SÓ O ADM PODE EDITAR UM USUÁRIO
                     if (nivel == 0) {
                         chain.doFilter(request, response);
@@ -95,7 +89,7 @@ public class AccessFilter implements Filter {
                 }
             }
             // TRATAR O ANÚNCIO
-            else if (path.contains("/apis/anuncio")){
+            else if (path.contains("/apis/anuncio")) {
                 // TRATAMENTO PARA O ANÚNCIO
                 // GET público para get-anuncios liberado acima
                 if (method.equals("GET")) {
@@ -139,11 +133,10 @@ public class AccessFilter implements Filter {
                 if (method.equals("DELETE")) {
                     if (nivel == 0) {
                         chain.doFilter(request, response);
-                        return;
                     } else {
                         forbidden(res);
-                        return;
                     }
+                    return;
                 }
                 // Caso nenhum critério casou, nega acesso
                 forbidden(res);
@@ -151,12 +144,6 @@ public class AccessFilter implements Filter {
         }
     }
 
-    /*
-    * Traduzido literalmente, 'forbidden' significa proibido,
-    *   ou seja, essa função retorna que o a tentativa de acesso
-    *   para aquela rota e com aquele metodo, com aquele usuário foi
-    *   bloqueado
-    * */
     private void forbidden(HttpServletResponse res) throws IOException {
         res.setStatus(HttpServletResponse.SC_FORBIDDEN);
         res.getWriter().write("Acesso negado para seu nível de usuário");

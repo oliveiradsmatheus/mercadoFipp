@@ -75,7 +75,11 @@ export default {
     methods: {
         buscarCategorias() {
             const url = "http://localhost:8080/apis/categoria";
-            axios.get(url)
+            axios.get(url, {
+                headers: {
+                    Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                }
+            })
                 .then(resposta => {
                     console.log(resposta);
                     this.categorias = resposta.data;
@@ -99,9 +103,7 @@ export default {
                 categoria: {
                     id: this.idCategoria
                 },
-                usuario: {
-                    id: 3
-                },
+                usuario: this.usuario,
                 perguntas: []
             };
 
@@ -112,7 +114,8 @@ export default {
 
             axios.post(url, formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data"
+                    "Content-Type": "multipart/form-data",
+                    Authorization: JSON.parse(localStorage.getItem("usuario")).token
                 }
             })
                 .then(resposta => {
@@ -130,6 +133,9 @@ export default {
     },
     mounted() {
         this.buscarCategorias()
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        if(!this.usuario)
+            this.$router.push("/");
     }
 }
 </script>

@@ -12,13 +12,13 @@
             <ul v-else class="list-group list-group-flush">
                 <li v-for="pergunta in perguntas" class="list-group-item bg-body-tertiary">
                     <div class="fw-bold text-dark">Pergunta:</div>
-                    <div class="mb-2">{{ pergunta.texto }}?</div>
+                    <div class="mb-2">{{ pergunta.texto }}</div>
                     <div v-if="pergunta.resposta" class="ms-3">
                         <span class="fw-semibold text-success">Resposta do vendedor:</span><br>
                         <p>{{ pergunta.resposta }}</p>
                     </div>
                     <div v-else>
-                        <div v-if="vendedor === this.usuario.id">
+                        <div v-if="this.usuario && vendedor === this.usuario.id">
                             <router-link class="text-decoration-none"
                                          :to="`/responder/${idAnuncio}/${pergunta.id}/${pergunta.texto}`">
                                 <button class="btn btn-secondary m-2" type="button">Responder</button>
@@ -30,7 +30,7 @@
                     </div>
                 </li>
             </ul>
-            <ul v-if="this.usuario.id !== vendedor" class="list-group list-group-flush">
+            <ul v-if="this.usuario && this.usuario.id !== vendedor" class="list-group list-group-flush">
                 <li class="list-group-item bg-body-tertiary">
                     <router-link class="text-decoration-none" :to="`/perguntar/${idAnuncio}`">
                         <button class="btn btn-warning mb-2" type="button">Faça uma pergunta!</button>
@@ -51,14 +51,15 @@ export default {
     },
     data() {
         return {
-            usuario: {
-                id: 2,
-                nivel: 1
-            }
+            usuario: null
         }
+    },
+    mounted() {
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
     }
 }
 </script>
 
 <style scoped>
+
 </style>

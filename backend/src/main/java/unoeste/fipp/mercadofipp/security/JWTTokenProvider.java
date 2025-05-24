@@ -13,10 +13,12 @@ public class JWTTokenProvider {
     private static final SecretKey CHAVE = Keys.hmacShaKeyFor(
             "MINHACHAVESECRETA_MINHACHAVESECRETA".getBytes(StandardCharsets.UTF_8));
 
-    static public String getToken(String usuario, String nivel) {
+    static public String getToken(String nome, Long id, String usuario, String nivel) {
         String jwtToken = Jwts.builder()
                 .setSubject("usuario")
                 .setIssuer("localhost:8080")
+                .claim("nome", nome)
+                .claim("id", id)
                 .claim("nivel", nivel)
                 .claim("usuario", usuario)
                 .setIssuedAt(new Date())

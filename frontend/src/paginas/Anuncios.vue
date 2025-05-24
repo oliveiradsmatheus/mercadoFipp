@@ -8,7 +8,7 @@
         </div>
         <div class="row g-4">
             <div class="d-flex justify-content-between">
-                <router-link class="text-decoration-none" to="cadastros/anuncios">
+                <router-link class="text-decoration-none" to="/cadastros/anuncios">
                     <button class="btn btn-warning">Anuncie aqui!</button>
                 </router-link>
                 <form class="d-flex" role="search">

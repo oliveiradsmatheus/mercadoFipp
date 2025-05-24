@@ -37,15 +37,24 @@ export default {
             idAnuncio: this.$route.params.idA,
             idPergunta: this.$route.params.idP,
             texto: this.$route.params.per,
+            usuario: null,
+            anuncio: null,
             resposta: ""
         }
     },
     methods: {
         gravar() {
-            const url = `http://localhost:8080/apis/anuncio/add-resposta/${this.idPergunta}/${this.resposta}`
+            const url = `http://localhost:8080/apis/anuncio/add-resposta/${this.idPergunta}`
+            const data = {
+                resposta: this.resposta
+            }
 
             if (this.resposta.length > 0)
-                axios.post(url)
+                axios.post(url, data, {
+                    headers: {
+                        Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                    }
+                })
                     .then(resposta => {
                         console.log(resposta);
                         localStorage.setItem("respostaRealizada", "true");
@@ -53,15 +62,32 @@ export default {
                     })
                     .catch(erro => {
                         console.log(erro);
-                        toast.error("Erro ao enviar pergunta!", {
+                        toast.error("Erro ao enviar resposta!", {
                             autoClose: 2000
                         });
                         this.resetarFormulario();
                     });
         },
+        recuperarAnuncio() {
+            const url = `http://localhost:8080/apis/anuncio/${this.idAnuncio}`;
+            axios.get(url)
+                .then(resposta => {
+                    console.log(resposta);
+                    this.anuncio = resposta.data;
+                    if (this.usuario && this.usuario.id !== this.anuncio.usuario.id)
+                        this.$router.push("/nao-autorizado");
+                })
+                .catch(erro => {
+                    console.log(erro);
+                })
+        },
         resetarFormulario() {
             this.resposta = "";
         }
+    },
+    mounted() {
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
+        this.recuperarAnuncio();
     }
 }
 </script>

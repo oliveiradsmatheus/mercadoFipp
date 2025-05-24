@@ -6,6 +6,7 @@ import unoeste.fipp.mercadofipp.entities.Usuario;
 import unoeste.fipp.mercadofipp.repositories.UsuarioRepository;
 import unoeste.fipp.mercadofipp.security.JWTTokenProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,21 +26,26 @@ public class UsuarioService {
         return usuarioRepository.findByName(nome);
     }
 
+    public List<String> getAllNames () {
+        List<Usuario> usuarios =  usuarioRepository.findAll();
+        List<String> nomes = new ArrayList<>();
+        for (Usuario usuario : usuarios)
+            nomes.add(usuario.getNome());
+        return nomes;
+    }
+
     private Usuario getByNameSenha(String nome, String senha) {
         Usuario usuario = usuarioRepository.findByName(nome);
-        if (usuario != null) {
-            if(usuario.getSenha().equals(senha)) {
+        if (usuario != null)
+            if (usuario.getSenha().equals(senha))
                 return usuario;
-            }
-        }
         return null;
     }
 
-    public String autenticar(String nome, String senha){
+    public String autenticar(String nome, String senha) {
         Usuario consultado = getByNameSenha(nome, senha);
-        if(consultado != null){
-            return JWTTokenProvider.getToken(consultado.getNome(), ""+consultado.getNivel());
-        }
+        if (consultado != null)
+            return JWTTokenProvider.getToken(consultado.getNome(), consultado.getId(), consultado.getNome(), "" + consultado.getNivel());
         return null;
     }
 

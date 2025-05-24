@@ -92,7 +92,11 @@ export default {
                 const data = {id: this.id, nome: this.nome};
 
                 if (this.nome.length > 0)
-                    axios.put(url, data)
+                    axios.put(url, data, {
+                        headers: {
+                            Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                        }
+                    })
                         .then(resposta => {
                             console.log(resposta);
                             this.carregarCategorias();
@@ -117,7 +121,11 @@ export default {
                 const data = {nome: this.nome};
 
                 if (this.nome.length > 0)
-                    axios.post(url, data)
+                    axios.post(url, data, {
+                        headers: {
+                            Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                        }
+                    })
                         .then(resposta => {
                             console.log(resposta);
                             this.carregarCategorias();
@@ -141,7 +149,11 @@ export default {
         apagar(id) {
             const url = "http://localhost:8080/apis/categoria/" + id;
             if (window.confirm("Deseja realmente deletar a categoria " + id + "?"))
-                axios.delete(url)
+                axios.delete(url, {
+                    headers: {
+                        Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                    }
+                })
                     .then(resposta => {
                         console.log(resposta);
                         toast.success("Categoria removida com sucesso!", {
@@ -177,7 +189,11 @@ export default {
         carregarCategorias() {
             const url = "http://localhost:8080/apis/categoria";
 
-            axios.get(url)
+            axios.get(url, {
+                headers: {
+                    Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                }
+            })
                 .then(resposta => {
                     console.log(resposta);
                     this.categorias = resposta.data;

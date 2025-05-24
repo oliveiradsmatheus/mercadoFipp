@@ -52,7 +52,11 @@ export default {
         apagar(id) {
             const url = `http://localhost:8080/apis/usuario/${id}`;
             if (window.confirm("Deseja realmente deletar o usuário " + id + "?"))
-                axios.delete(url)
+                axios.delete(url, {
+                    headers: {
+                        Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                    }
+                })
                     .then(resposta => {
                         console.log(resposta);
                         toast.success("Usuário removido com sucesso!", {
@@ -76,7 +80,11 @@ export default {
         carregarUsuarios() {
             const url = "http://localhost:8080/apis/usuario";
 
-            axios.get(url)
+            axios.get(url, {
+                headers: {
+                    Authorization: JSON.parse(localStorage.getItem("usuario")).token
+                }
+            })
                 .then(resposta => {
                     console.log(resposta);
                     this.usuarios = resposta.data;

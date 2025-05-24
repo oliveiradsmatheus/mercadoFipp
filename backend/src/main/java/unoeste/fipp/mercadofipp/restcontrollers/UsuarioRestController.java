@@ -28,6 +28,14 @@ public class UsuarioRestController {
         return ResponseEntity.badRequest().body(new Erro("Usuários não encontrados!"));
     }
 
+    @GetMapping(value = "/get-nomes")
+    public ResponseEntity<Object> getAllNames() {
+        List<String> usuarios = usuarioService.getAllNames();
+        if(usuarios != null && !usuarios.isEmpty())
+            return ResponseEntity.ok(usuarios);
+        return ResponseEntity.badRequest().body(new Erro("Usuários não encontrados!"));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUsuarioId(@PathVariable(name = "id") Long id) {
         Usuario usuario = usuarioService.getById(id);
@@ -55,11 +63,13 @@ public class UsuarioRestController {
     @PostMapping("/logar")
     public ResponseEntity<Object> logar(@RequestParam String nome, @RequestParam String senha) {
         String token = usuarioService.autenticar(nome, senha);
-        Claims claims = JWTTokenProvider.getAllClaimsFromToken(token);
-        Map<String, Object> json = new HashMap<>();
-        json.put("token", token);
-        json.put("nivel", claims.get("nivel"));
         if (token != null) {
+            Claims claims = JWTTokenProvider.getAllClaimsFromToken(token);
+            Map<String, Object> json = new HashMap<>();
+            json.put("id", claims.get("id"));
+            json.put("nome", claims.get("nome"));
+            json.put("token", token);
+            json.put("nivel", claims.get("nivel"));
             return ResponseEntity.ok(json);
         }
         return ResponseEntity.badRequest().body(new Erro("Não foi possível logar no sistema!!"));

@@ -13,6 +13,7 @@ import CadResposta from "@/components/formularios/CadResposta.vue";
 import CrudAnuncios from "@/paginas/administrativo/CrudAnuncios.vue";
 import Integrantes from "@/paginas/Integrantes.vue";
 import Anuncios from "@/paginas/Anuncios.vue";
+import NaoAutorizado from "@/paginas/NaoAutorizado.vue";
 
 const routes = [
     {
@@ -30,26 +31,10 @@ const routes = [
         }
     },
     {
-        path: "/anuncios",
-        component: Anuncios,
+        path: "/login",
+        component: Login,
         meta: {
-            title: "Todos os anúncios"
-        }
-    },
-    {
-        path: "/anuncios/usuario/:idUsr",
-        component: Anuncios,
-        props: true,
-        meta: {
-            title: "Todos os anúncios"
-        }
-    },
-    {
-        path: "/anuncios/filtro/:filtro",
-        component: Anuncios,
-        props: true,
-        meta: {
-            title: "Todos os anúncios"
+            title: "Entrar"
         }
     },
     {
@@ -60,13 +45,6 @@ const routes = [
         }
     },
     {
-        path: "/login",
-        component: Login,
-        meta: {
-            title: "Entrar"
-        }
-    },
-    {
         path: "/criar-conta",
         component: CriarConta,
         meta: {
@@ -74,59 +52,109 @@ const routes = [
         }
     },
     {
-        path: "/perguntar/:id",
-        component: CadPergunta,
+        path: '/erro',
+        component: Erro,
         meta: {
-            title: "Faça sua pergunta!"
+            title: "Erro"
         }
     },
     {
-        path: "/responder/:idA/:idP/:per",
-        component: CadResposta,
+        path: '/nao-autorizado',
+        component: NaoAutorizado,
         meta: {
-            title: "Responda às perguntas do seu anúncio!"
-        }
-    },
-    {
-        path: "/cadastros/anuncios",
-        component: CadAnuncio,
-        meta: {
-            title: "Cadastro de anúncios"
-        }
-    },
-    {
-        path: "/adm/anuncios",
-        component: CrudAnuncios,
-        meta: {
-            title: "Painel administrativo - Anúncios"
-        }
-    },
-    {
-        path: "/adm/categorias",
-        component: CrudCategorias,
-        meta: {
-            title: "Painel administrativo - Categorias"
-        }
-    },
-    {
-        path: "/adm/usuarios",
-        component: CrudUsuarios,
-        meta: {
-            title: "Painel administrativo - Usuários"
+            title: "Acesso negado!"
         }
     },
     {
         path: "/anuncio/:id",
         component: Anuncio,
         meta: {
-            title: "Anúncio"
+            title: "Anúncio",
+            requiresAuth: true,
+            requiresAdmin: false
         }
     },
     {
-        path: '/erro',
-        component: Erro,
+        path: "/anuncios",
+        component: Anuncios,
         meta: {
-            title: "Erro"
+            title: "Todos os anúncios",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/anuncios/usuario/:idUsr",
+        component: Anuncios,
+        props: true,
+        meta: {
+            title: "Todos os anúncios",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/anuncios/filtro/:filtro",
+        component: Anuncios,
+        props: true,
+        meta: {
+            title: "Todos os anúncios",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/perguntar/:id",
+        component: CadPergunta,
+        meta: {
+            title: "Faça sua pergunta!",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/responder/:idA/:idP/:per",
+        component: CadResposta,
+        meta: {
+            title: "Responda às perguntas do seu anúncio!",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/cadastros/anuncios",
+        component: CadAnuncio,
+        meta: {
+            title: "Cadastro de anúncios",
+            requiresAuth: true,
+            requiresAdmin: false
+        }
+    },
+    {
+        path: "/adm/anuncios",
+        component: CrudAnuncios,
+        meta: {
+            title: "Painel administrativo - Anúncios",
+            requiresAuth: true,
+            requiresAdmin: true
+        }
+    },
+    {
+        path: "/adm/categorias",
+        component: CrudCategorias,
+        meta: {
+            title: "Painel administrativo - Categorias",
+            requiresAuth: true,
+            requiresAdmin: true
+        }
+    },
+    {
+        path: "/adm/usuarios",
+        component: CrudUsuarios,
+        meta: {
+            title: "Painel administrativo - Usuários",
+            requiresAuth: true,
+            requiresAdmin: true
         }
     },
     {
@@ -142,8 +170,13 @@ const router = createRouter({
 
 // Aplicar títulos nas rota.
 router.beforeEach((to, from, next) => {
-    const defaultTitle = "Mercado FIPP";
-    document.title = to.meta.title || defaultTitle;
+    const titulo = "Mercado FIPP";
+    document.title = to.meta.title || titulo;
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (to.meta.requiresAuth && !usuario)
+        return next("/login");
+    if (to.meta.requiresAdmin && (!usuario || usuario.nivel !== "0"))
+        return next("/nao-autorizado");
     next();
 });
 

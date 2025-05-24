@@ -1,9 +1,9 @@
 <template>
     <div class="container text-center mt-4">
-            <img src="../assets/imagens/erro.png" alt="erro" class="w-50">
-            <p class="fs-3"> <span class="text-danger">Ops!</span> Página não encontrada.</p>
+        <h1 class="text-danger mb-3">403</h1>
+        <p class="fs-3"><span class="text-danger">Acesso Negado!</span></p>
         <p class="lead">
-            A página que você está procurando não existe ou foi movida.
+            Você não tem permissão para acessar esta página.
         </p>
         <router-link class="text-decoration-none" to="/">
             <button class="btn btn-warning mb-2" type="button">Voltar</button>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: "Erro"
+    name: "NaoAutorizado"
 }
 </script>
 

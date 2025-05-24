@@ -17,7 +17,7 @@
                         <li class="nav-item">
                             <router-link class="nav-link active" to="/anuncios">Anúncios</router-link>
                         </li>
-                        <li v-if="this.usuario.nivel === 0" class="nav-item dropdown">
+                        <li v-if="this.usuario && this.usuario.nivel === '0'" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 Administrador
@@ -39,15 +39,20 @@
                         </li>
                     </ul>
                     <div class="d-flex">
+                        <p v-if="this.usuario" class="text text-white m-2">Seja bem-vindo, {{ this.usuario.nome }}</p>
                         <div class="mx-2 botaoLogin">
-                            <router-link class="text-decoration-none" :to="this.logado? '/' : '/login'">
-                                <button class="btn" :class=" this.logado?  'btn-danger d-flex' : 'btn-light me-2'"
-                                        @click=" this.logado?  this.sair() : this.logar">
-                                    {{ logado ? 'Sair' : 'Entrar' }}
+                            <router-link v-if="this.usuario" class="text-decoration-none" to="/">
+                                <button class="btn btn-danger d-flex" @click="this.sair()">
+                                    Sair
+                                </button>
+                            </router-link>
+                            <router-link v-else class="text-decoration-none" to="/login">
+                                <button class="btn btn-light me-2">
+                                    Entrar
                                 </button>
                             </router-link>
                         </div>
-                        <router-link to="/criar-conta" class="btn-link">
+                        <router-link v-if="!this.usuario" to="/criar-conta" class="btn-link">
                             <button class="btn btn-outline-light">Registrar</button>
                         </router-link>
                     </div>
@@ -62,20 +67,17 @@ export default {
     name: "Menu",
     data() {
         return {
-            logado: true,
-            usuario: {
-                id: 0,
-                nivel: 1
-            }
+            usuario: null,
         }
     },
     methods: {
-        logar() {
-            this.logado = true;
-        },
         sair() {
-            this.logado = false;
+            localStorage.removeItem("usuario");
+            this.usuario = null;
         }
+    },
+    mounted() {
+        this.usuario = JSON.parse(localStorage.getItem("usuario"));
     }
 }
 </script>

@@ -52,14 +52,14 @@ export default {
         },
         validar() {
             if (this.senha === this.confirmarSenha) {
-                const url = "http://localhost:8080/apis/usuario";
+                const url = "http://localhost:8080/apis/usuario/get-nomes";
 
                 axios.get(url)
                     .then(resposta => {
                         console.log(resposta);
                         this.listaUsuarios = resposta.data;
                         let i = 0;
-                        while (i < this.listaUsuarios.length && this.nome !== this.listaUsuarios[i].nome)
+                        while (i < this.listaUsuarios.length && this.nome !== this.listaUsuarios[i])
                             i++;
                         if (i === this.listaUsuarios.length)
                             this.cadastrar();
@@ -82,7 +82,6 @@ export default {
                 senha: this.senha,
                 nivel: 1
             }
-
             axios.post(url, data)
                 .then(resposta => {
                     console.log(resposta);
@@ -97,6 +96,10 @@ export default {
                     this.resetarFormulario();
                 });
         }
+    },
+    mounted() {
+        if(localStorage.getItem("usuario"))
+            this.$router.push("/");
     }
 }
 </script>
