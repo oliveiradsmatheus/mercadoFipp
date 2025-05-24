@@ -113,7 +113,7 @@ const routes = [
         }
     },
     {
-        path: "/responder/:idA/:idP/:per",
+        path: "/responder/:idA/:idP",
         component: CadResposta,
         meta: {
             title: "Responda às perguntas do seu anúncio!",

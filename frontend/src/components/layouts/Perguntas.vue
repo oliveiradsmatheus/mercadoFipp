@@ -20,7 +20,7 @@
                     <div v-else>
                         <div v-if="this.usuario && vendedor === this.usuario.id">
                             <router-link class="text-decoration-none"
-                                         :to="`/responder/${idAnuncio}/${pergunta.id}/${pergunta.texto}`">
+                                         :to="`/responder/${idAnuncio}/${pergunta.id}`">
                                 <button class="btn btn-secondary m-2" type="button">Responder</button>
                             </router-link>
                         </div>

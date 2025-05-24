@@ -36,7 +36,7 @@ export default {
         return {
             idAnuncio: this.$route.params.idA,
             idPergunta: this.$route.params.idP,
-            texto: this.$route.params.per,
+            texto: "",
             usuario: null,
             anuncio: null,
             resposta: ""
@@ -76,6 +76,10 @@ export default {
                     this.anuncio = resposta.data;
                     if (this.usuario && this.usuario.id !== this.anuncio.usuario.id)
                         this.$router.push("/nao-autorizado");
+                    else
+                        for (let pergunta of this.anuncio.perguntas)
+                            if (pergunta.id === Number(this.idPergunta))
+                                this.texto = pergunta.texto;
                 })
                 .catch(erro => {
                     console.log(erro);
